@@ -9,9 +9,11 @@
 //! An object-relational in-memory cache, supports queries with an SQL-like query language.
 
 #![deny(clippy::pedantic, warnings)]
+#![feature(format_args_capture)]
 
 use dashmap::DashMap;
 
+pub mod error;
 pub mod r#impl;
 pub mod ql;
 
