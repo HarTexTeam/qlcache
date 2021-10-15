@@ -94,6 +94,14 @@ pub enum ColumnValue {
 
 #[cfg(test)]
 mod tests {
+    use super::{
+        CacheTable,
+        CacheTableRow,
+        ColumnDataType,
+        ColumnValue,
+        QlCache
+    };
+
     static_assertions::assert_impl_all!(QlCache: Clone, Send, Sync);
     static_assertions::assert_impl_all!(CacheTable: Clone, Send, Sync);
     static_assertions::assert_impl_all!(CacheTableRow: Clone, Send, Sync);
