@@ -74,7 +74,12 @@ fn parse(query: &str) -> QlResult<Command> {
             Some("SELECT") => {
                 // obtain the column(s) to `SELECT`
                 let values = match segments.next() {
-                    Some(value) if value != "*" => Values::Columns(value.split(",").collect()),
+                    Some(value) if value != "*" => Values::Columns(
+                        value
+                            .split(",")
+                            .map(|refstr| refstr.to_string())
+                            .collect()
+                    ),
                     Some("*") => Values::Everything,
                     _ => return Err(QlError::ParseQueryError(
                         ParseQueryErrorKind::SyntaxError {
