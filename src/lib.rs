@@ -12,11 +12,13 @@
 
 use dashmap::DashMap;
 
+pub mod r#impl;
 pub mod ql;
 
 /// # Struct `QlCache`
 ///
 /// A concurrently accessible object-relational in-memory cache.
+#[allow(dead_code)]
 #[derive(Clone)]
 pub struct QlCache {
     cache: DashMap<String, CacheTable>

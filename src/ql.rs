@@ -37,6 +37,7 @@ pub enum Constraint {
 /// # Struct `Select`
 ///
 /// Represents a `SELECT` command.
+#[allow(dead_code)]
 #[derive(Clone, PartialEq)]
 pub struct Select {
     values: Values,
