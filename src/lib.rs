@@ -8,17 +8,14 @@
 //!
 //! An object-relational in-memory cache, supports queries with an SQL-like query language.
 
-use dashmap::{
-    DashMap,
-    DashSet
-};
+use dashmap::DashMap;
 
 /// # Struct `QlCache`
 ///
 /// A concurrently accessible object-relational in-memory cache.
 #[derive(Clone)]
 pub struct QlCache {
-    cache: DashSet<CacheTable>
+    cache: DashMap<String, CacheTable>
 }
 
 /// # Struct `CacheTable`
@@ -39,7 +36,7 @@ pub struct CacheTable {
     /// # Struct Field `rows`
     ///
     /// The rows of the table.
-    pub rows: DashSet<CacheTableRow>
+    pub rows: DashMap<u64, CacheTableRow>
 }
 
 /// # Struct `CacheTableRow`
@@ -55,10 +52,8 @@ pub struct CacheTableRow {
 
 /// # Enumeration `ColumnDataType`
 ///
-/// The datatype of a column. Almost all of the variants correspond to their Rust types,
-/// except that `Map` and `Set` variants correspond to `DashMap` and `DashSet` respectively to
-/// allow concurrent access.
-#[derive(Clone)]
+/// The datatype of a column. Almost all of the variants correspond to their Rust types.
+#[derive(Clone, PartialEq)]
 pub enum ColumnDataType {
     // integer types
     I8,
