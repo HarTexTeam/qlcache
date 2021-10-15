@@ -6,3 +6,9 @@ description = """
 An object-relational in-memory cache, supports queries with an SQL-like query language.
 """
 license = "Apache-2.0"
+
+[dependencies]
+dashmap = "4.0.2"
+
+[dev-dependencies]
+static_assertions = "1.1.0"

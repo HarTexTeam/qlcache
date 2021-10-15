@@ -7,3 +7,101 @@
 //! ![Minimum Supported Rust Version](https://img.shields.io/badge/rust-1.57-93450a.svg?style=for-the-badge&logo=rust)
 //!
 //! An object-relational in-memory cache, supports queries with an SQL-like query language.
+
+use dashmap::{
+    DashMap,
+    DashSet
+};
+
+/// # Struct `QlCache`
+///
+/// A concurrently accessible object-relational in-memory cache.
+#[derive(Clone)]
+pub struct QlCache {
+    cache: DashSet<CacheTable>
+}
+
+/// # Struct `CacheTable`
+///
+/// A table in the cache.
+#[derive(Clone)]
+pub struct CacheTable {
+    /// # Struct Field `name`
+    ///
+    /// The name of the table.
+    pub name: String,
+
+    /// # Struct Field `columns`
+    ///
+    /// The columns of the table.
+    pub columns: DashMap<String, ColumnDataType>,
+
+    /// # Struct Field `rows`
+    ///
+    /// The rows of the table.
+    pub rows: DashSet<CacheTableRow>
+}
+
+/// # Struct `CacheTableRow`
+///
+/// A row in a table in the cache.
+#[derive(Clone)]
+pub struct CacheTableRow {
+    /// # Struct Field `column_values`
+    ///
+    /// The values of each column in this table.
+    pub column_values: DashMap<String, ColumnValue>
+}
+
+/// # Enumeration `ColumnDataType`
+///
+/// The datatype of a column. Almost all of the variants correspond to their Rust types,
+/// except that `Map` and `Set` variants correspond to `DashMap` and `DashSet` respectively to
+/// allow concurrent access.
+#[derive(Clone)]
+pub enum ColumnDataType {
+    // integer types
+    I8,
+    I16,
+    I32,
+    I64,
+    I128,
+    U8,
+    U16,
+    U32,
+    U64,
+    U128,
+
+    // text
+    String
+}
+
+/// # Enumeration `ColumnValue`
+///
+/// The value of a column.
+#[derive(Clone)]
+pub enum ColumnValue {
+    // integer types
+    I8(i8),
+    I16(i16),
+    I32(i32),
+    I64(i64),
+    I128(i128),
+    U8(u8),
+    U16(u16),
+    U32(u32),
+    U64(u64),
+    U128(u128),
+
+    // text
+    String(String)
+}
+
+#[cfg(test)]
+mod tests {
+    static_assertions::assert_impl_all!(QlCache: Clone, Send, Sync);
+    static_assertions::assert_impl_all!(CacheTable: Clone, Send, Sync);
+    static_assertions::assert_impl_all!(CacheTableRow: Clone, Send, Sync);
+    static_assertions::assert_impl_all!(ColumnDataType: Clone, Send, Sync);
+    static_assertions::assert_impl_all!(ColumnValue: Clone, Send, Sync);
+}
