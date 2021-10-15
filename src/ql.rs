@@ -91,7 +91,7 @@ fn parse(query: &str) -> QlResult<Command> {
                 };
 
                 // check if the next lexeme is `FROM`
-                let next = segments.peekable().peek();
+                let next = segments.clone().peekable().peek();
                 if next.is_none() || next.unwrap() != &"FROM" {
                     return Err(QlError::ParseQueryError(
                         ParseQueryErrorKind::SyntaxError {
@@ -118,7 +118,7 @@ fn parse(query: &str) -> QlResult<Command> {
                     ));
                 };
 
-                if segments.peekable().peek().is_none() {
+                if segments.clone().peekable().peek().is_none() {
                     // no more code to read, means that the query is simply:
                     // SELECT some_values FROM some_table
                     command = Command::Select(Select {
