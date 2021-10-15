@@ -4,17 +4,17 @@
 
 use crate::ColumnValue;
 
-//! # Enumeration `Command`
-//!
-//! An enumeration representing various commands of the language.
+/// # Enumeration `Command`
+///
+/// An enumeration representing various commands of the language.
 #[derive(Clone, PartialEq)]
 pub enum Command {
     Select(Select)
 }
 
-//! # Enumeration `Constraint`
-//!
-//! An enumeration representing a constraint for the query.
+/// # Enumeration `Constraint`
+///
+/// An enumeration representing a constraint for the query.
 #[derive(Clone, PartialEq)]
 pub enum Constraint {
     Equality {
@@ -34,18 +34,18 @@ pub enum Constraint {
     NotNull
 }
 
-//! # Struct `Select`
-//!
-//! Represents a `SELECT` command.
+/// # Struct `Select`
+///
+/// Represents a `SELECT` command.
 #[derive(Clone, PartialEq)]
 pub struct Select {
     values: Values,
     constraints: Option<Vec<Constraint>>
 }
 
-//! # Enumeration `Values`
-//!
-//! An enumeration representing the values to query.
+/// # Enumeration `Values`
+///
+/// An enumeration representing the values to query.
 #[derive(Clone, PartialEq)]
 pub enum Values {
     Everything,
