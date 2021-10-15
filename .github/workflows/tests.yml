@@ -3,7 +3,7 @@ name: Tests
 on:
   push:
     branches:
-      - infdev
+      - main
   pull_request:
     branches:
       - "**"
