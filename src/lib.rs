@@ -8,7 +8,11 @@
 //!
 //! An object-relational in-memory cache, supports queries with an SQL-like query language.
 
+#![deny(clippy::pedantic, warnings)]
+
 use dashmap::DashMap;
+
+pub mod ql;
 
 /// # Struct `QlCache`
 ///
@@ -30,8 +34,8 @@ pub struct CacheTable {
 
     /// # Struct Field `columns`
     ///
-    /// The columns of the table.
-    pub columns: DashMap<String, ColumnDataType>,
+    /// The columns of the table, and whether the value can be `null`.
+    pub columns: DashMap<String, (ColumnDataType, bool)>,
 
     /// # Struct Field `rows`
     ///
@@ -74,7 +78,7 @@ pub enum ColumnDataType {
 /// # Enumeration `ColumnValue`
 ///
 /// The value of a column.
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub enum ColumnValue {
     // integer types
     I8(i8),
