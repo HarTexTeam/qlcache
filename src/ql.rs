@@ -91,7 +91,9 @@ fn parse(query: &str) -> QlResult<Command> {
                 };
 
                 // check if the next lexeme is `FROM`
-                let next = segments.clone().peekable().peek();
+                let mut peekable = segments.clone().peekable();
+                let next = peekable.peek();
+                
                 if next.is_none() || next.unwrap() != &"FROM" {
                     return Err(QlError::ParseQueryError(
                         ParseQueryErrorKind::SyntaxError {
@@ -130,7 +132,7 @@ fn parse(query: &str) -> QlResult<Command> {
                 else {
                     // there are still more lexemes to analyze
                     // check if the next lexeme is `WHERE` for constraints
-                    let next = segments.peekable().peek();
+                    let next = segments.clone().peekable().peek();
                     if next.is_none() || next.unwrap() != &"FROM" {
                         return Err(QlError::ParseQueryError(
                             ParseQueryErrorKind::SyntaxError {
