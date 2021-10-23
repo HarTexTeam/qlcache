@@ -1,5 +1,7 @@
 # directories
 .idea
 
+target
+
 # .lock files
 Cargo.lock

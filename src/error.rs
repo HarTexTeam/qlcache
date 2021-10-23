@@ -6,17 +6,9 @@
 ///
 /// An enumeration representing various errors types.
 pub enum QlError {
-    ParseQueryError(ParseQueryErrorKind)
 }
 
-/// # Enumeration `ParseQueryErrorKind`
+/// # Typealias `QlResult`
 ///
-/// An enumeration represents various errors that may occur during query parsing.
-#[derive(Clone, PartialEq)]
-pub enum ParseQueryErrorKind {
-    SyntaxError {
-        description: String
-    }
-}
-
+/// A typealias for `Result<T, QlError>`.
 pub type QlResult<T> = Result<T, QlError>;
