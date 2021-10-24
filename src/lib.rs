@@ -15,7 +15,6 @@ use dashmap::DashMap;
 
 pub mod error;
 pub mod r#impl;
-pub mod ql;
 
 /// # Struct `QlCache`
 ///
