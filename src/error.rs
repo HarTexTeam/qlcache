@@ -5,6 +5,7 @@
 /// # Enumeration `QlError`
 ///
 /// An enumeration representing various errors types.
+#[allow(clippy::module_name_repetitions)]
 pub enum QlError {
     RequiredFieldIsNone { field_name: String }
 }

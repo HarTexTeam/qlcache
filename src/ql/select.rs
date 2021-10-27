@@ -14,7 +14,7 @@ impl Select {
     }
 }
 
-
+#[allow(clippy::module_name_repetitions)]
 pub struct SelectBuilder {
     pub(crate) table_name: Option<String>,
     pub(crate) scope: Option<SelectScope>
@@ -28,6 +28,7 @@ impl SelectBuilder {
     }
 }
 
+#[allow(clippy::module_name_repetitions)]
 pub enum SelectScope {
     Everything,
     Fields(Vec<String>)
