@@ -2,20 +2,10 @@
 //!
 //! This module implements various errors for the crate.
 
-use sqlparser::parser::ParserError;
-
 /// # Enumeration `QlError`
 ///
 /// An enumeration representing various errors types.
-pub enum QlError {
-    SqlParseError(ParserError)
-}
-
-impl From<ParserError> for QlError {
-    fn from(error: ParserError) -> Self {
-        Self::SqlParseError(error)
-    }
-}
+pub enum QlError {}
 
 /// # Typealias `QlResult`
 ///
