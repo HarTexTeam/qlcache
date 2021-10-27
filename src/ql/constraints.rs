@@ -169,7 +169,8 @@ pub enum ConstraintOp {
 pub struct AndConstraint<L, R>
 where
     L: ComputableConstraint,
-    R: ComputableConstraint {
+    R: ComputableConstraint
+{
     pub(crate) left: L,
     pub(crate) right: R
 }
@@ -177,7 +178,8 @@ where
 impl<L, R> AndConstraint<L, R>
 where
     L: ComputableConstraint,
-    R: ComputableConstraint {
+    R: ComputableConstraint
+{
     /// # Constructor `AndConstraint::new`
     ///
     /// Constructs a new `And` constraint.
@@ -192,7 +194,8 @@ where
 impl<L, R> ComputableConstraint for AndConstraint<L, R>
 where
     L: ComputableConstraint,
-    R: ComputableConstraint {
+    R: ComputableConstraint
+{
     fn compute(&self) -> bool {
         self.left.compute() && self.right.compute()
     }
@@ -204,7 +207,8 @@ where
 pub struct OrConstraint<L, R>
 where
     L: ComputableConstraint,
-    R: ComputableConstraint {
+    R: ComputableConstraint
+{
     pub(crate) left: L,
     pub(crate) right: R
 }
@@ -212,7 +216,8 @@ where
 impl<L, R> OrConstraint<L, R>
 where
     L: ComputableConstraint,
-    R: ComputableConstraint {
+    R: ComputableConstraint
+{
     /// # Constructor `OrConstraint::new`
     ///
     /// Constructs a new `Or` constraint.
@@ -227,7 +232,8 @@ where
 impl<L, R> ComputableConstraint for OrConstraint<L, R>
 where
     L: ComputableConstraint,
-    R: ComputableConstraint {
+    R: ComputableConstraint
+{
     fn compute(&self) -> bool {
         self.left.compute() || self.right.compute()
     }
