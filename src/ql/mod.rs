@@ -29,6 +29,7 @@ pub struct Query<T: QueryKind> {
 }
 
 impl<T: QueryKind> Query<T> {
+    #[must_use]
     pub fn builder() -> QueryBuilder {
         QueryBuilder {}
     }
@@ -43,6 +44,7 @@ impl QueryBuilder {
     /// # Instance Method `QueryBuilder::select`
     ///
     /// Returns a builder for building a `SELECT` query.
+    #[must_use]
     pub fn select() -> SelectBuilder {
         Select::builder()
     }
@@ -62,6 +64,7 @@ impl Constraint {
     /// # Instance Method `Constraint::builder`
     ///
     /// Returns a builder for a `Constraint`
+    #[must_use]
     pub fn builder() -> ConstraintBuilder {
         ConstraintBuilder {
             field_name: None,
@@ -88,6 +91,7 @@ impl ConstraintBuilder {
     ///
     /// ## Parameters
     /// - `field_name`, type `String`; the field name to set
+    #[must_use]
     pub fn field_name(mut self, field_name: String) -> Self {
         self.field_name.replace(field_name);
         self
@@ -99,6 +103,7 @@ impl ConstraintBuilder {
     ///
     /// ## Parameters
     /// - `op`, type `ConstraintOp`; the "constraint relational operator" name to set
+    #[must_use]
     pub fn op(mut self, op: ConstraintOp) -> Self {
         self.op.replace(op);
         self
@@ -110,6 +115,7 @@ impl ConstraintBuilder {
     ///
     /// ## Parameters
     /// - `op`, type `ConstraintOp`; the "constraint relational operator" name to set
+    #[must_use]
     pub fn value(mut self, value: ColumnValue) -> Self {
         self.value.replace(value);
         self
@@ -118,6 +124,7 @@ impl ConstraintBuilder {
     /// # Instance Method `ConstraintBuilder::build`
     ///
     /// Consumes the builder and returns a `Constraint`.
+    #[must_use]
     pub fn build(self) -> QlResult<Constraint> {
         if self.field_name.is_none() {
             return Err(QlError::RequiredFieldIsNone {

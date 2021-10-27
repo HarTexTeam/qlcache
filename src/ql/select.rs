@@ -5,6 +5,7 @@
 pub(crate) struct Select;
 
 impl Select {
+    #[must_use]
     pub(crate) fn builder() -> SelectBuilder {
         SelectBuilder {
             table_name: None,
@@ -20,6 +21,7 @@ pub struct SelectBuilder {
 }
 
 impl SelectBuilder {
+    #[must_use]
     pub fn table_name(mut self, table_name: String) -> Self {
         self.table_name.replace(table_name);
         self
