@@ -2,14 +2,22 @@
 //!
 //! This module implements the `SELECT` query of the query language.
 
-pub(crate) struct Select;
+use crate::ql::constraints::ComputableConstraint;
 
-impl Select {
+pub(crate) struct Select<C>
+where
+    C: ComputableConstraint;
+
+impl<C> Select<C>
+where
+    C: ComputableConstraint
+{
     #[must_use]
-    pub(crate) fn builder() -> SelectBuilder {
+    pub(crate) fn builder() -> SelectBuilder<C> {
         SelectBuilder {
             table_name: None,
-            scope: None
+            scope: None,
+            constraint: None
         }
     }
 }
@@ -18,12 +26,18 @@ impl Select {
 ///
 /// A builder for a `Select`.
 #[allow(clippy::module_name_repetitions)]
-pub struct SelectBuilder {
+pub struct SelectBuilder<C>
+where
+    C: ComputableConstraint
+{
     pub(crate) table_name: Option<String>,
-    pub(crate) scope: Option<SelectScope>
+    pub(crate) scope: Option<SelectScope>,
+    pub(crate) constraint: Option<C>
 }
 
-impl SelectBuilder {
+impl<C> SelectBuilder<C>
+where
+    C: ComputableConstraint {
     /// # Instance Method `SelectBuilder::field_name`
     ///
     /// Sets the table name for the selection.
@@ -45,6 +59,17 @@ impl SelectBuilder {
     #[must_use]
     pub fn scope(mut self, scope: SelectScope) -> Self {
         self.scope.replace(scope);
+        self
+    }
+
+    /// # Instance Method `SelectBuilder::constraint`
+    ///
+    /// Sets a constraint for the selection
+    ///
+    /// ## Parameters
+    /// - `constraint`, type `C`; the constraint to add
+    pub fn constraint(mut self, constraint: C) -> Self {
+        self.constraint.replace(constraint);
         self
     }
 }

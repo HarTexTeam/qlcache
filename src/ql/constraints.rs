@@ -163,10 +163,10 @@ pub enum ConstraintOp {
     Ge
 }
 
-/// # Struct `And`
+/// # Struct `AndConstraint`
 ///
 /// An "and" constraint.
-pub struct And<L, R>
+pub struct AndConstraint<L, R>
 where
     L: ComputableConstraint,
     R: ComputableConstraint
@@ -175,12 +175,12 @@ where
     pub(crate) right: R
 }
 
-impl<L, R> And<L, R>
+impl<L, R> AndConstraint<L, R>
 where
     L: ComputableConstraint,
     R: ComputableConstraint
 {
-    /// # Constructor `Add::new`
+    /// # Constructor `AndConstraint::new`
     ///
     /// Constructs a new `And` constraint.
     pub fn new(left: L, right: R) -> Self {
@@ -191,7 +191,7 @@ where
     }
 }
 
-impl<L, R> ComputableConstraint for And<L, R>
+impl<L, R> ComputableConstraint for AndConstraint<L, R>
 where
     L: ComputableConstraint,
     R: ComputableConstraint
@@ -201,10 +201,10 @@ where
     }
 }
 
-/// # Struct `Or`
+/// # Struct `OrConstraint`
 ///
 /// An "or" constraint.
-pub struct Or<L, R>
+pub struct OrConstraint<L, R>
 where
     L: ComputableConstraint,
     R: ComputableConstraint
@@ -213,12 +213,12 @@ where
     pub(crate) right: R
 }
 
-impl<L, R> Or<L, R>
+impl<L, R> OrConstraint<L, R>
 where
     L: ComputableConstraint,
     R: ComputableConstraint
 {
-    /// # Constructor `Or::new`
+    /// # Constructor `OrConstraint::new`
     ///
     /// Constructs a new `Or` constraint.
     pub fn new(left: L, right: R) -> Self {
@@ -229,7 +229,7 @@ where
     }
 }
 
-impl<L, R> ComputableConstraint for Or<L, R>
+impl<L, R> ComputableConstraint for OrConstraint<L, R>
     where
         L: ComputableConstraint,
         R: ComputableConstraint
