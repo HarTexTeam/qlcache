@@ -2,11 +2,15 @@
 //!
 //! This module implements the `SELECT` query of the query language.
 
+use std::marker::PhantomData;
+
 use crate::ql::constraints::ComputableConstraint;
 
 pub(crate) struct Select<C>
 where
-    C: ComputableConstraint;
+    C: ComputableConstraint {
+    phantom: PhantomData<C>
+}
 
 impl<C> Select<C>
 where
