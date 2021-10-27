@@ -5,7 +5,11 @@
 /// # Enumeration `QlError`
 ///
 /// An enumeration representing various errors types.
-pub enum QlError {}
+pub enum QlError {
+    RequiredFieldIsNone {
+        field_name: String
+    }
+}
 
 /// # Typealias `QlResult`
 ///

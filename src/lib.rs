@@ -15,6 +15,7 @@ use dashmap::DashMap;
 
 pub mod error;
 pub mod r#impl;
+pub mod ql;
 
 /// # Struct `QlCache`
 ///
@@ -60,7 +61,7 @@ pub struct CacheTableRow {
 /// # Enumeration `ColumnDataType`
 ///
 /// The datatype of a column. Almost all of the variants correspond to their Rust types.
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Eq, PartialEq)]
 pub enum ColumnDataType {
     // integer types
     I8,
@@ -81,7 +82,7 @@ pub enum ColumnDataType {
 /// # Enumeration `ColumnValue`
 ///
 /// The value of a column.
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Eq, PartialEq)]
 pub enum ColumnValue {
     // integer types
     I8(i8),
@@ -112,6 +113,6 @@ mod tests {
     static_assertions::assert_impl_all!(QlCache: Clone, Send, Sync);
     static_assertions::assert_impl_all!(CacheTable: Clone, Send, Sync);
     static_assertions::assert_impl_all!(CacheTableRow: Clone, Send, Sync);
-    static_assertions::assert_impl_all!(ColumnDataType: Clone, Send, Sync);
-    static_assertions::assert_impl_all!(ColumnValue: Clone, Send, Sync);
+    static_assertions::assert_impl_all!(ColumnDataType: Clone, Eq, PartialEq, Send, Sync);
+    static_assertions::assert_impl_all!(ColumnValue: Clone, Eq, PartialEq, Send, Sync);
 }

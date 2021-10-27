@@ -7,8 +7,3 @@
 ![Minimum Supported Rust Version](https://img.shields.io/badge/rust-1.57-93450a.svg?style=for-the-badge&logo=rust)
 
 An object-relational in-memory cache, supports queries with an SQL-like query language.
-
-## Warning
-
-This is a rather low-level library, and only provides the basic features for a cache. Things like SQL injection and
-other vulnerabilities and flaws should be taken into account by the user.
