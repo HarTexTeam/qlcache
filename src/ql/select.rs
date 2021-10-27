@@ -10,8 +10,7 @@ where
 
 impl<C> Select<C>
 where
-    C: ComputableConstraint
-{
+    C: ComputableConstraint {
     #[must_use]
     pub(crate) fn builder() -> SelectBuilder<C> {
         SelectBuilder {
@@ -28,8 +27,7 @@ where
 #[allow(clippy::module_name_repetitions)]
 pub struct SelectBuilder<C>
 where
-    C: ComputableConstraint
-{
+    C: ComputableConstraint {
     pub(crate) table_name: Option<String>,
     pub(crate) scope: Option<SelectScope>,
     pub(crate) constraint: Option<C>
