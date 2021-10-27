@@ -10,6 +10,16 @@ use crate::{
     ColumnValue
 };
 
+/// # Trait `ComputableConstraint`
+///
+/// A computable constraint, returns whether the constraint is satisfied upon computation.
+pub trait ComputableConstraint {
+    /// # Trait Method `ComputableConstraint::compute`
+    ///
+    /// Computes this constraint and returns whether the constraint is satisfied.
+    fn compute(&self) -> bool;
+}
+
 /// # Struct `Constraint`
 ///
 /// A constraint for data queries.
@@ -32,11 +42,10 @@ impl Constraint {
             value: None
         }
     }
+}
 
-    /// # Instance Method `Constraint::compute`
-    ///
-    /// Computes this constraint and returns whether the constraint is satisfied.
-    pub fn compute(&self) -> bool {
+impl ComputableConstraint for Constraint {
+    fn compute(&self) -> bool {
         todo!()
     }
 }
@@ -152,4 +161,80 @@ pub enum ConstraintOp {
     ///
     /// `>=`
     Ge
+}
+
+/// # Struct `And`
+///
+/// An "and" constraint.
+pub struct And<L, R>
+    where
+        L: ComputableConstraint,
+        R: ComputableConstraint
+{
+    pub(crate) left: L,
+    pub(crate) right: R
+}
+
+impl<L, R> And<L, R>
+    where
+        L: ComputableConstraint,
+        R: ComputableConstraint
+{
+    /// # Constructor `Add::new`
+    ///
+    /// Constructs a new `And` constraint.
+    pub fn new(left: L, right: R) -> Self {
+        Self {
+            left,
+            right
+        }
+    }
+}
+
+impl<L, R> ComputableConstraint for And<L, R>
+    where
+        L: ComputableConstraint,
+        R: ComputableConstraint
+{
+    fn compute(&self) -> bool {
+        self.left.compute() && self.right.compute()
+    }
+}
+
+/// # Struct `Or`
+///
+/// An "or" constraint.
+pub struct Or<L, R>
+    where
+        L: ComputableConstraint,
+        R: ComputableConstraint
+{
+    pub(crate) left: L,
+    pub(crate) right: R
+}
+
+impl<L, R> Or<L, R>
+    where
+        L: ComputableConstraint,
+        R: ComputableConstraint
+{
+    /// # Constructor `Or::new`
+    ///
+    /// Constructs a new `Or` constraint.
+    pub fn new(left: L, right: R) -> Self {
+        Self {
+            left,
+            right
+        }
+    }
+}
+
+impl<L, R> ComputableConstraint for Or<L, R>
+    where
+        L: ComputableConstraint,
+        R: ComputableConstraint
+{
+    fn compute(&self) -> bool {
+        self.left.compute() || self.right.compute()
+    }
 }
