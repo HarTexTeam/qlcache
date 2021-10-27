@@ -2,6 +2,8 @@
 //!
 //! This module implements the query language.
 
+use std::marker::PhantomData;
+
 use crate::ql::{
     constraints::ComputableConstraint,
     select::{
@@ -30,7 +32,9 @@ pub struct Query<T: QueryKind> {
 /// The builder for a `Query`.
 pub struct QueryBuilder<C>
 where
-    C: ComputableConstraint;
+    C: ComputableConstraint {
+    phantom: PhantomData<C>
+}
 
 impl<C> QueryBuilder<C>
 where
