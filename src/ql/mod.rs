@@ -7,10 +7,14 @@ use crate::{
         QlError,
         QlResult
     },
+    ql::select::{
+        Select,
+        SelectBuilder
+    },
     ColumnValue
 };
 
-mod select;
+pub mod select;
 
 /// # Trait `QueryKind`
 ///
@@ -35,7 +39,14 @@ impl<T: QueryKind> Query<T> {
 /// The builder for a `Query`.
 pub struct QueryBuilder;
 
-impl QueryBuilder {}
+impl QueryBuilder {
+    /// # Instance Method `QueryBuilder::select`
+    ///
+    /// Returns a builder for building a `SELECT` query.
+    pub fn select() -> SelectBuilder {
+        Select::builder()
+    }
+}
 
 /// # Struct `Constraint`
 ///
@@ -48,6 +59,9 @@ pub struct Constraint {
 }
 
 impl Constraint {
+    /// # Instance Method `Constraint::builder`
+    ///
+    /// Returns a builder for a `Constraint`
     pub fn builder() -> ConstraintBuilder {
         ConstraintBuilder {
             field_name: None,
