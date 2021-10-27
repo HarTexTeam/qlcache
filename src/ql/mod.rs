@@ -2,9 +2,12 @@
 //!
 //! This module implements the query language.
 
-use crate::ql::select::{
-    Select,
-    SelectBuilder
+use crate::ql::{
+    constraints::ComputableConstraint,
+    select::{
+        Select,
+        SelectBuilder,
+    }
 };
 
 pub mod constraints;
@@ -25,14 +28,18 @@ pub struct Query<T: QueryKind> {
 /// # Struct `QueryBuilder`
 ///
 /// The builder for a `Query`.
-pub struct QueryBuilder;
+pub struct QueryBuilder<C>
+where
+    C: ComputableConstraint;
 
-impl QueryBuilder {
+impl<C> QueryBuilder<C>
+where
+    C: ComputableConstraint {
     /// # Static Method `QueryBuilder::select`
     ///
     /// Returns a builder for building a `SELECT` query.
     #[must_use]
-    pub fn select() -> SelectBuilder {
+    pub fn select() -> SelectBuilder<C> {
         Select::builder()
     }
 }
