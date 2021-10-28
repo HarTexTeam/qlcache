@@ -11,7 +11,8 @@ use crate::{
     },
     ql::constraints::{
         AndConstraint,
-        ComputableConstraint
+        ComputableConstraint,
+        OrConstraint
     }
 };
 
@@ -104,6 +105,30 @@ where
 
         self.constraint.replace(
             AndConstraint::new(self.constraint.unwrap(), constraint)
+        );
+        Ok(self)
+    }
+
+    /// # Instance Method `SelectBuilder::or`
+    ///
+    /// Adds an "or" constraint, with operands the previously added constraint,
+    /// as well as the constraint passed to the `constraint` parameter.
+    ///
+    /// ## Parameters
+    /// - `constraint`, type `C`; the constraint to add
+    ///
+    /// ## Errors
+    ///
+    /// Returns `NoFirstConstraintFoundBeforeAndOr` if `constraint` in the `SelectBuilder`
+    /// structure is `None`.
+    #[allow(clippy::missing_panics_doc)] // this function never panics
+    pub fn or(mut self, constraint: C) -> QlResult<Self> {
+        if self.constraint.is_none() {
+            return Err(QlError::NoFirstConstraintFoundBeforeAndOr);
+        }
+
+        self.constraint.replace(
+            OrConstraint::new(self.constraint.unwrap(), constraint)
         );
         Ok(self)
     }
