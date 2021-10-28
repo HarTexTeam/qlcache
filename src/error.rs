@@ -7,6 +7,7 @@
 /// An enumeration representing various errors types.
 #[allow(clippy::module_name_repetitions)]
 pub enum QlError {
+    NoFirstConstraintFoundBeforeAndOr,
     RequiredFieldIsNone { field_name: String }
 }
 

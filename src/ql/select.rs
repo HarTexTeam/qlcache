@@ -4,7 +4,16 @@
 
 use std::marker::PhantomData;
 
-use crate::ql::constraints::ComputableConstraint;
+use crate::{
+    error::{
+        QlError,
+        QlResult
+    },
+    ql::constraints::{
+        AndConstraint,
+        ComputableConstraint
+    }
+};
 
 pub(crate) struct Select<C>
 where
@@ -73,6 +82,30 @@ where
     pub fn constraint(mut self, constraint: C) -> Self {
         self.constraint.replace(constraint);
         self
+    }
+
+    /// # Instance Method `SelectBuilder::and`
+    ///
+    /// Adds an "and" constraint, with operands the previously added constraint,
+    /// as well as the constraint passed to the `constraint` parameter.
+    ///
+    /// ## Parameters
+    /// - `constraint`, type `C`; the constraint to add
+    ///
+    /// ## Errors
+    ///
+    /// Returns `NoFirstConstraintFoundBeforeAndOr` if `constraint` in the `SelectBuilder`
+    /// structure is `None`.
+    #[allow(clippy::missing_panics_doc)] // this function never panics
+    pub fn and(mut self, constraint: C) -> QlResult<Self> {
+        if self.constraint.is_none() {
+            return Err(QlError::NoFirstConstraintFoundBeforeAndOr);
+        }
+
+        self.constraint.replace(
+            AndConstraint::new(self.constraint.unwrap(), constraint)
+        );
+        Ok(self)
     }
 }
 

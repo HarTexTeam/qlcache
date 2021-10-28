@@ -104,7 +104,7 @@ impl ConstraintBuilder {
     /// ## Errors
     ///
     /// Returns `RequiredFieldIsNone` if any of the fields required is `None`.
-    #[allow(clippy::missing_panics_doc)] // this function would never panic
+    #[allow(clippy::missing_panics_doc)] // this function never panics
     pub fn build(self) -> QlResult<Constraint> {
         if self.field_name.is_none() {
             return Err(QlError::RequiredFieldIsNone {
