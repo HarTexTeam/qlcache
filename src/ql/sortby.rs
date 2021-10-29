@@ -46,6 +46,7 @@ pub enum SortOrdering {
     Descending
 }
 
+#[cfg(test)]
 mod tests {
     use super::{
         SortBy,
