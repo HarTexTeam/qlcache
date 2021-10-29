@@ -23,6 +23,7 @@ pub trait ComputableConstraint {
 /// # Struct `Constraint`
 ///
 /// A constraint for data queries.
+#[allow(dead_code)]
 #[derive(Clone)]
 pub struct Constraint {
     pub(crate) field_name: String,
@@ -53,7 +54,6 @@ impl ComputableConstraint for Constraint {
 /// # Struct `ConstraintBuilder`
 ///
 /// A builder for a `Constraint`.
-#[allow(dead_code)]
 #[derive(Clone)]
 pub struct ConstraintBuilder {
     pub(crate) field_name: Option<String>,
