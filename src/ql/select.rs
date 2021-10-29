@@ -124,6 +124,7 @@ impl Select {
 ///         .build()
 ///         .unwrap()
 ///     ))
+///     .unwrap()
 ///     .build();
 /// ```
 ///
@@ -157,6 +158,7 @@ impl Select {
 ///         .build()
 ///         .unwrap()
 ///     ))
+///     .unwrap()
 ///     .build();
 /// ```
 #[allow(clippy::module_name_repetitions)]
