@@ -13,7 +13,7 @@ use crate::{
 /// # Trait `ComputableConstraint`
 ///
 /// A computable constraint, returns whether the constraint is satisfied upon computation.
-pub trait ComputableConstraint: Clone + Sized {
+pub trait ComputableConstraint {
     /// # Trait Method `ComputableConstraint::compute`
     ///
     /// Computes this constraint and returns whether the constraint is satisfied.
