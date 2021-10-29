@@ -9,6 +9,7 @@ use crate::{
     },
     ql::constraints::{
         AndConstraint,
+        BoxedConstraint,
         ComputableConstraint,
         OrConstraint
     }
@@ -17,7 +18,7 @@ use crate::{
 pub(crate) struct Select {
     pub(crate) table_name: String,
     pub(crate) scope: SelectScope,
-    pub(crate) constraint: Option<Box<dyn ComputableConstraint>>
+    pub(crate) constraint: Option<BoxedConstraint>
 }
 
 impl Select {
@@ -55,7 +56,7 @@ impl Select {
 pub struct SelectBuilder {
     pub(crate) table_name: Option<String>,
     pub(crate) scope: Option<SelectScope>,
-    pub(crate) constraint: Option<Box<dyn ComputableConstraint>>
+    pub(crate) constraint: Option<BoxedConstraint>
 }
 
 impl SelectBuilder {
@@ -90,7 +91,7 @@ impl SelectBuilder {
     /// ## Parameters
     /// - `constraint`, type `C`; the constraint to add
     #[must_use]
-    pub fn constraint(mut self, constraint: Box<dyn ComputableConstraint>) -> Self {
+    pub fn constraint(mut self, constraint: BoxedConstraint) -> Self {
         self.constraint.replace(constraint);
         self
     }
@@ -108,7 +109,7 @@ impl SelectBuilder {
     /// Returns `NoFirstConstraintFoundBeforeAndOr` if `constraint` in the `SelectBuilder`
     /// structure is `None`.
     #[allow(clippy::missing_panics_doc)] // this function never panics
-    pub fn and(mut self, constraint: Box<dyn ComputableConstraint>) -> QlResult<Self> {
+    pub fn and(mut self, constraint: BoxedConstraint) -> QlResult<Self> {
         if self.constraint.is_none() {
             return Err(QlError::NoFirstConstraintFoundBeforeAndOr);
         }
@@ -133,7 +134,7 @@ impl SelectBuilder {
     /// Returns `NoFirstConstraintFoundBeforeAndOr` if `constraint` in the `SelectBuilder`
     /// structure is `None`.
     #[allow(clippy::missing_panics_doc)] // this function never panics
-    pub fn or(mut self, constraint: Box<dyn ComputableConstraint>) -> QlResult<Self> {
+    pub fn or(mut self, constraint: BoxedConstraint) -> QlResult<Self> {
         if self.constraint.is_none() {
             return Err(QlError::NoFirstConstraintFoundBeforeAndOr);
         }

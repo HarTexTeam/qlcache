@@ -190,8 +190,8 @@ pub enum ConstraintOp {
 ///
 /// An "and" constraint.
 pub struct AndConstraint {
-    pub(crate) left: Box<dyn ComputableConstraint>,
-    pub(crate) right: Box<dyn ComputableConstraint>
+    pub(crate) left: BoxedConstraint,
+    pub(crate) right: BoxedConstraint
 }
 
 impl AndConstraint {
@@ -199,7 +199,7 @@ impl AndConstraint {
     ///
     /// Constructs a new `And` constraint.
     #[must_use]
-    pub fn new(left: Box<dyn ComputableConstraint>, right: Box<dyn ComputableConstraint>) -> Self {
+    pub fn new(left: BoxedConstraint, right: BoxedConstraint) -> Self {
         Self {
             left,
             right
@@ -217,8 +217,8 @@ impl ComputableConstraint for AndConstraint {
 ///
 /// An "or" constraint.
 pub struct OrConstraint {
-    pub(crate) left: Box<dyn ComputableConstraint>,
-    pub(crate) right: Box<dyn ComputableConstraint>
+    pub(crate) left: BoxedConstraint,
+    pub(crate) right: BoxedConstraint
 }
 
 impl OrConstraint {
@@ -226,7 +226,7 @@ impl OrConstraint {
     ///
     /// Constructs a new `Or` constraint.
     #[must_use]
-    pub fn new(left: Box<dyn ComputableConstraint>, right: Box<dyn ComputableConstraint>) -> Self {
+    pub fn new(left: BoxedConstraint, right: BoxedConstraint>) -> Self {
         Self {
             left,
             right
@@ -239,6 +239,8 @@ impl ComputableConstraint for OrConstraint {
         self.left.compute() || self.right.compute()
     }
 }
+
+pub(crate) type BoxedConstraint = Box<dyn ComputableConstraint + Send + Sync>;
 
 #[cfg(test)]
 mod tests {
