@@ -23,6 +23,28 @@ pub trait ComputableConstraint {
 /// # Struct `Constraint`
 ///
 /// A constraint for data queries.
+///
+/// ## Example
+///
+/// To construct a constraint, that the value of field `FieldName`, of type `I32`, has the
+/// value `2138`:
+///
+/// ```
+/// use qlcache::{
+///     ql::constraints::{
+///         Constraint,
+///         ConstraintOp
+///     },
+///     ColumnValue
+/// };
+///
+/// let constraint = Constraint::builder()
+///     .field_name(String::from("FieldName"))
+///     .op(ConstraintOp::Eq)
+///     .value(ColumnValue::I32(2138))
+///     .build()
+///     .unwrap();
+/// ```
 #[allow(dead_code)]
 #[derive(Clone)]
 pub struct Constraint {
@@ -34,7 +56,7 @@ pub struct Constraint {
 impl Constraint {
     /// # Static Method `Constraint::builder`
     ///
-    /// Returns a builder for a `Constraint`
+    /// Returns a builder for a `Constraint`.
     #[must_use]
     pub fn builder() -> ConstraintBuilder {
         ConstraintBuilder {
@@ -109,19 +131,19 @@ impl ConstraintBuilder {
     pub fn build(self) -> QlResult<Constraint> {
         if self.field_name.is_none() {
             return Err(QlError::RequiredFieldIsNone {
-                field_name: String::from("Constraint.field_name")
+                field_name: String::from("ConstraintBuilder.field_name")
             });
         }
 
         if self.op.is_none() {
             return Err(QlError::RequiredFieldIsNone {
-                field_name: String::from("Constraint.op")
+                field_name: String::from("ConstraintBuilder.op")
             });
         }
 
         if self.value.is_none() {
             return Err(QlError::RequiredFieldIsNone {
-                field_name: String::from("Constraint.value")
+                field_name: String::from("ConstraintBuilder.value")
             });
         }
 

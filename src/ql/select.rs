@@ -14,7 +14,11 @@ use crate::{
     }
 };
 
-pub(crate) struct Select;
+pub(crate) struct Select {
+    pub(crate) table_name: String,
+    pub(crate) scope: SelectScope,
+    pub(crate) constraint: Option<Box<dyn ComputableConstraint>>
+}
 
 impl Select {
     #[must_use]
@@ -30,6 +34,23 @@ impl Select {
 /// # Struct `SelectBuilder`
 ///
 /// A builder for a `Select`.
+///
+/// ## Examples
+///
+/// Case 1: Basic `SELECT` queries
+/// - select *everything*
+/// ```
+/// use qlcache::ql::{
+///     select::SelectScope,
+///     QueryBuilder
+/// };
+///
+/// let select = QueryBuilder::select()
+///     .table_name(String::from("TableName"))
+///     .scope(SelectScope::Everything)
+///     .build()
+///     .unwrap();
+/// ```
 #[allow(clippy::module_name_repetitions)]
 pub struct SelectBuilder {
     pub(crate) table_name: Option<String>,
@@ -38,7 +59,7 @@ pub struct SelectBuilder {
 }
 
 impl SelectBuilder {
-    /// # Instance Method `SelectBuilder::field_name`
+    /// # Instance Method `SelectBuilder::table_name`
     ///
     /// Sets the table name for the selection.
     ///
@@ -50,7 +71,7 @@ impl SelectBuilder {
         self
     }
 
-    /// # Instance Method `SelectBuilder::field_name`
+    /// # Instance Method `SelectBuilder::scope`
     ///
     /// Sets the selection scope for the selection.
     ///
@@ -122,6 +143,34 @@ impl SelectBuilder {
         self.constraint
             .replace(Box::new(OrConstraint::new(exist_constraint, constraint)));
         Ok(self)
+    }
+
+    /// # Instance Method `SelectBuidler::build`
+    ///
+    /// Consumes the builder and returns a `Select`.
+    ///
+    /// ## Errors
+    ///
+    /// Returns `RequiredFieldIsNone` if any of the fields required is `None`.
+    #[allow(clippy::missing_panics_doc)] // this function never panics
+    pub fn build(self) -> QlResult<Select> {
+        if self.table_name.is_none() {
+            return Err(QlError::RequiredFieldIsNone {
+                field_name: String::from("SelectBuilder.table_name")
+            });
+        }
+
+        if self.scope.is_none() {
+            return Err(QlError::RequiredFieldIsNone {
+                field_name: String::from("SelectBuilder.scope")
+            });
+        }
+
+        Ok(Select {
+            table_name: self.table_name.unwrap(),
+            scope: self.scope.unwrap(),
+            constraint: self.constraint
+        })
     }
 }
 
