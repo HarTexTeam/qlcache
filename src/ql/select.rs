@@ -14,6 +14,7 @@ use crate::{
     }
 };
 
+#[allow(dead_code)]
 pub(crate) struct Select {
     pub(crate) table_name: String,
     pub(crate) scope: SelectScope,
