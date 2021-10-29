@@ -282,6 +282,9 @@ impl SelectBuilder {
     }
 }
 
+/// # Enumeration `SelectScope`
+///
+/// The scope for the `SELECT` query.
 #[allow(clippy::module_name_repetitions)]
 pub enum SelectScope {
     Everything,
