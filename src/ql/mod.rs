@@ -2,12 +2,9 @@
 //!
 //! This module implements the query language.
 
-use crate::ql::{
-    constraints::ComputableConstraint,
-    select::{
-        Select,
-        SelectBuilder
-    }
+use crate::ql::select::{
+    Select,
+    SelectBuilder
 };
 
 pub mod constraints;
