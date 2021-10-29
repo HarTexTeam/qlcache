@@ -2,8 +2,6 @@
 //!
 //! This module implements the `SELECT` query of the query language.
 
-use std::marker::PhantomData;
-
 use crate::{
     error::{
         QlError,
@@ -16,17 +14,11 @@ use crate::{
     }
 };
 
-pub(crate) struct Select<C>
-where
-    C: ComputableConstraint {
-    phantom: PhantomData<C>
-}
+pub(crate) struct Select<C>;
 
-impl<C> Select<C>
-where
-    C: ComputableConstraint {
+impl Select {
     #[must_use]
-    pub(crate) fn builder() -> SelectBuilder<C> {
+    pub(crate) fn builder() -> SelectBuilder {
         SelectBuilder {
             table_name: None,
             scope: None,
@@ -39,17 +31,13 @@ where
 ///
 /// A builder for a `Select`.
 #[allow(clippy::module_name_repetitions)]
-pub struct SelectBuilder<C>
-where
-    C: ComputableConstraint {
+pub struct SelectBuilder {
     pub(crate) table_name: Option<String>,
     pub(crate) scope: Option<SelectScope>,
-    pub(crate) constraint: Option<C>
+    pub(crate) constraint: Option<Box<dyn ComputableConstraint>>
 }
 
-impl<C> SelectBuilder<C>
-where
-    C: ComputableConstraint {
+impl SelectBuilder {
     /// # Instance Method `SelectBuilder::field_name`
     ///
     /// Sets the table name for the selection.
@@ -80,7 +68,7 @@ where
     ///
     /// ## Parameters
     /// - `constraint`, type `C`; the constraint to add
-    pub fn constraint(mut self, constraint: C) -> Self {
+    pub fn constraint(mut self, constraint: Box<dyn ComputableConstraint>) -> Self {
         self.constraint.replace(constraint);
         self
     }
@@ -98,13 +86,13 @@ where
     /// Returns `NoFirstConstraintFoundBeforeAndOr` if `constraint` in the `SelectBuilder`
     /// structure is `None`.
     #[allow(clippy::missing_panics_doc)] // this function never panics
-    pub fn and(mut self, constraint: C) -> QlResult<Self> {
+    pub fn and(mut self, constraint: Box<dyn ComputableConstraint>) -> QlResult<Self> {
         if self.constraint.is_none() {
             return Err(QlError::NoFirstConstraintFoundBeforeAndOr);
         }
 
         self.constraint.replace(
-            AndConstraint::new(self.constraint.unwrap(), constraint)
+            Box::new(AndConstraint::new(self.constraint.unwrap(), constraint))
         );
         Ok(self)
     }
@@ -122,13 +110,13 @@ where
     /// Returns `NoFirstConstraintFoundBeforeAndOr` if `constraint` in the `SelectBuilder`
     /// structure is `None`.
     #[allow(clippy::missing_panics_doc)] // this function never panics
-    pub fn or(mut self, constraint: C) -> QlResult<Self> {
+    pub fn or(mut self, constraint: Box<dyn ComputableConstraint>) -> QlResult<Self> {
         if self.constraint.is_none() {
             return Err(QlError::NoFirstConstraintFoundBeforeAndOr);
         }
 
         self.constraint.replace(
-            OrConstraint::new(self.constraint.unwrap(), constraint)
+            Box::new(OrConstraint::new(self.constraint.unwrap(), constraint))
         );
         Ok(self)
     }
