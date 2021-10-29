@@ -68,6 +68,7 @@ impl SelectBuilder {
     ///
     /// ## Parameters
     /// - `constraint`, type `C`; the constraint to add
+    #[must_use]
     pub fn constraint(mut self, constraint: Box<dyn ComputableConstraint>) -> Self {
         self.constraint.replace(constraint);
         self

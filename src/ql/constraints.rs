@@ -175,6 +175,7 @@ impl AndConstraint {
     /// # Constructor `AndConstraint::new`
     ///
     /// Constructs a new `And` constraint.
+    #[must_use]
     pub fn new(left: Box<dyn ComputableConstraint>, right: Box<dyn ComputableConstraint>) -> Self {
         Self {
             left,
@@ -201,6 +202,7 @@ impl OrConstraint {
     /// # Constructor `OrConstraint::new`
     ///
     /// Constructs a new `Or` constraint.
+    #[must_use]
     pub fn new(left: Box<dyn ComputableConstraint>, right: Box<dyn ComputableConstraint>) -> Self {
         Self {
             left,
