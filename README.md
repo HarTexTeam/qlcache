@@ -6,4 +6,4 @@
 [![License](https://img.shields.io/github/license/HarTexTeam/HarTex-rust-discord-bot?style=for-the-badge&logo=pastebin)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 ![Minimum Supported Rust Version](https://img.shields.io/badge/rust-1.58-93450a.svg?style=for-the-badge&logo=rust)
 
-An object-relational in-memory cache, supports queries with an SQL-like query language.
+An object-relational in-memory cache, supports queries with an ORM API that wraps around an SQL-like query language.

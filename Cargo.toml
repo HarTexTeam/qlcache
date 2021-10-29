@@ -3,7 +3,7 @@ name = "qlcache"
 version = "0.1.0"
 edition = "2021"
 description = """
-An object-relational in-memory cache, supports queries with an SQL-like query language.
+An object-relational in-memory cache, supports queries with an ORM API that wraps around an SQL-like query language.
 """
 license = "Apache-2.0"
 
