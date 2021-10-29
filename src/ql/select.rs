@@ -39,7 +39,7 @@ impl Select {
 /// ## Examples
 ///
 /// Case 1: Basic `SELECT` queries
-/// - select *everything*
+/// - select *everything* (`SELECT * FROM TableName`):
 /// ```
 /// use qlcache::ql::{
 ///     select::SelectScope,
@@ -51,6 +51,113 @@ impl Select {
 ///     .scope(SelectScope::Everything)
 ///     .build()
 ///     .unwrap();
+/// ```
+///
+/// - select *specific fields* (`SELECT Field1 FROM TableName`):
+/// ```
+/// use qlcache::ql::{
+///     select::SelectScope,
+///     QueryBuilder
+/// };
+///
+/// let select = QueryBuilder::select()
+///     .table_name(String::from("TableName"))
+///     .scope(SelectScope::Fields(vec![String::from("Field1")]))
+///     .build()
+///     .unwrap();
+/// ```
+///
+/// Case 2: Filtering
+/// - *one* constraint (`SELECT * FROM TableName WHERE Field1 = "XE"`)
+/// ```
+/// use qlcache::{
+///     ql::{
+///         constraints::{
+///             Constraint,
+///             ConstraintOp
+///         },
+///         select::SelectScope,
+///         QueryBuilder
+///     },
+///     ColumnValue
+/// };
+///
+/// let select = QueryBuilder::select()
+///     .table_name(String::from("TableName"))
+///     .scope(SelectScope::Everything)
+///     .constraint(Box::new(Constraint::builder()
+///         .field_name(String::from("Field1"))
+///         .op(ConstraintOp::Eq)
+///         .value(ColumnValue::String(String::from("XE")))
+///         .build()
+///         .unwrap()))
+///     .build();
+/// ```
+///
+/// - *and* constraints (`SELECT * FROM TableName WHERE Field1 = "XE" AND Field2 = 2138`):
+/// ```
+/// use qlcache::{
+///     ql::{
+///         constraints::{
+///             Constraint,
+///             ConstraintOp
+///         },
+///         select::SelectScope,
+///         QueryBuilder
+///     },
+///     ColumnValue
+/// };
+///
+/// let select = QueryBuilder::select()
+///     .table_name(String::from("TableName"))
+///     .scope(SelectScope::Everything)
+///     .constraint(Box::new(Constraint::builder()
+///         .field_name(String::from("Field1"))
+///         .op(ConstraintOp::Eq)
+///         .value(ColumnValue::String(String::from("XE")))
+///         .build()
+///         .unwrap()))
+///     .and(Box::new(Constraint::builder()
+///         .field_name(String::from("Field2"))
+///         .op(ConstraintOp::Eq)
+///         .value(ColumnValue::I32(2138))
+///         .build()
+///         .unwrap()
+///     ))
+///     .build();
+/// ```
+///
+/// - *or* constraints (`SELECT * FROM TableName WHERE Field1 = "XE" OR Field2 = 2138`):
+/// ```
+/// use qlcache::{
+///     ql::{
+///         constraints::{
+///             Constraint,
+///             ConstraintOp
+///         },
+///         select::SelectScope,
+///         QueryBuilder
+///     },
+///     ColumnValue
+/// };
+///
+/// let select = QueryBuilder::select()
+///     .table_name(String::from("TableName"))
+///     .scope(SelectScope::Everything)
+///     .constraint(Box::new(Constraint::builder()
+///         .field_name(String::from("Field1"))
+///         .op(ConstraintOp::Eq)
+///         .value(ColumnValue::String(String::from("XE")))
+///         .build()
+///         .unwrap()))
+///     .or(Box::new(Constraint::builder()
+///         .field_name(String::from("Field2"))
+///         .op(ConstraintOp::Eq)
+///         .value(ColumnValue::I32(2138))
+///         .build()
+///         .unwrap()
+///     ))
+///     .build();
 /// ```
 #[allow(clippy::module_name_repetitions)]
 pub struct SelectBuilder {
