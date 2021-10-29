@@ -116,7 +116,8 @@ impl Select {
 ///         .op(ConstraintOp::Eq)
 ///         .value(ColumnValue::String(String::from("XE")))
 ///         .build()
-///         .unwrap()))
+///         .unwrap()
+///     ))
 ///     .and(Box::new(Constraint::builder()
 ///         .field_name(String::from("Field2"))
 ///         .op(ConstraintOp::Eq)
@@ -126,6 +127,35 @@ impl Select {
 ///     ))
 ///     .unwrap()
 ///     .build();
+/// ```
+///
+/// - *not* constraints (`SELECT * FROM TableName WHERE NOT Field1 = "XE`):
+/// ```
+/// use qlcache::{
+///     ql::{
+///         constraints::{
+///             Constraint,
+///             ConstraintOp,
+///             NotConstraint
+///         },
+///         select::SelectScope,
+///         QueryBuilder
+///     },
+///     ColumnValue
+/// };
+///
+/// let select = QueryBuilder::select()
+///     .table_name(String::from("TableName"))
+///     .scope(SelectScope::Everything)
+///     .constraint(Box::new(NotConstraint::new(Box::new(Constraint::builder()
+///         .field_name(String::from("Field1"))
+///         .op(ConstraintOp::Eq)
+///         .value(ColumnValue::String(String::from("XE")))
+///         .build()
+///         .unwrap()))
+///      ))
+///      .build()
+///      .unwrap();
 /// ```
 ///
 /// - *or* constraints (`SELECT * FROM TableName WHERE Field1 = "XE" OR Field2 = 2138`):
@@ -150,7 +180,8 @@ impl Select {
 ///         .op(ConstraintOp::Eq)
 ///         .value(ColumnValue::String(String::from("XE")))
 ///         .build()
-///         .unwrap()))
+///         .unwrap()
+///     ))
 ///     .or(Box::new(Constraint::builder()
 ///         .field_name(String::from("Field2"))
 ///         .op(ConstraintOp::Eq)

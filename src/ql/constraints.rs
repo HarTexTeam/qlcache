@@ -213,6 +213,31 @@ impl ComputableConstraint for AndConstraint {
     }
 }
 
+/// # Struct `AndConstraint`
+///
+/// A "not" constraint.
+pub struct NotConstraint {
+    pub(crate) constraint: BoxedConstraint
+}
+
+impl NotConstraint {
+    /// # Constructor `AndConstraint::new`
+    ///
+    /// Constructs a new `not` constraint.
+    #[must_use]
+    pub fn new(constraint: BoxedConstraint) -> Self {
+        Self {
+            constraint
+        }
+    }
+}
+
+impl ComputableConstraint for NotConstraint {
+    fn compute(&self) -> bool {
+        !self.constraint.compute()
+    }
+}
+
 /// # Struct `OrConstraint`
 ///
 /// An "or" constraint.
