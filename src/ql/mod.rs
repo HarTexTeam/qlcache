@@ -6,7 +6,7 @@ use crate::ql::{
     constraints::ComputableConstraint,
     select::{
         Select,
-        SelectBuilder,
+        SelectBuilder
     }
 };
 

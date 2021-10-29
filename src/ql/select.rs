@@ -91,9 +91,10 @@ impl SelectBuilder {
             return Err(QlError::NoFirstConstraintFoundBeforeAndOr);
         }
 
-        self.constraint.replace(
-            Box::new(AndConstraint::new(self.constraint.unwrap(), constraint))
-        );
+        self.constraint.replace(Box::new(AndConstraint::new(
+            self.constraint.unwrap(),
+            constraint
+        )));
         Ok(self)
     }
 
@@ -115,9 +116,10 @@ impl SelectBuilder {
             return Err(QlError::NoFirstConstraintFoundBeforeAndOr);
         }
 
-        self.constraint.replace(
-            Box::new(OrConstraint::new(self.constraint.unwrap(), constraint))
-        );
+        self.constraint.replace(Box::new(OrConstraint::new(
+            self.constraint.unwrap(),
+            constraint
+        )));
         Ok(self)
     }
 }
