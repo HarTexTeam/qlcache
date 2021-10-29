@@ -130,3 +130,14 @@ pub enum SelectScope {
     Everything,
     Fields(Vec<String>)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::{
+        Select,
+        SelectBuilder
+    };
+
+    static_assertions::assert_impl_all!(Select: Send, Sync);
+    static_assertions::assert_impl_all!(SelectBuilder: Send, Sync);
+}

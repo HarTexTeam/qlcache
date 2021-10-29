@@ -23,7 +23,7 @@ pub trait ComputableConstraint {
 /// # Struct `Constraint`
 ///
 /// A constraint for data queries.
-#[derive(Clone, Eq, PartialEq)]
+#[derive(Clone)]
 pub struct Constraint {
     pub(crate) field_name: String,
     pub(crate) op: ConstraintOp,
@@ -53,7 +53,7 @@ impl ComputableConstraint for Constraint {
 /// # Struct `ConstraintBuilder`
 ///
 /// A builder for a `Constraint`.
-#[derive(Clone, Eq, PartialEq)]
+#[derive(Clone)]
 pub struct ConstraintBuilder {
     pub(crate) field_name: Option<String>,
     pub(crate) op: Option<ConstraintOp>,
@@ -215,4 +215,22 @@ impl ComputableConstraint for OrConstraint {
     fn compute(&self) -> bool {
         self.left.compute() || self.right.compute()
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{
+        AndConstraint,
+        ComputableConstraint,
+        Constraint,
+        ConstraintBuilder,
+        ConstraintOp,
+        OrConstraint
+    };
+
+    static_assertions::assert_impl_all!(AndConstraint: ComputableConstraint, Send, Sync);
+    static_assertions::assert_impl_all!(Constraint: Clone, ComputableConstraint, Send, Sync);
+    static_assertions::assert_impl_all!(ConstraintBuilder: Clone, Send, Sync);
+    static_assertions::assert_impl_all!(ConstraintOp: Clone, Eq, PartialEq, Send, Sync);
+    static_assertions::assert_impl_all!(OrConstraint: ComputableConstraint, Send, Sync);
 }
