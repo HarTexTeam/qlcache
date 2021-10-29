@@ -92,7 +92,7 @@ impl SelectBuilder {
         }
 
         self.constraint.replace(Box::new(AndConstraint::new(
-            self.constraint.clone().unwrap(),
+            *self.constraint.as_ref().clone().unwrap(),
             constraint
         )));
         Ok(self)
@@ -117,7 +117,7 @@ impl SelectBuilder {
         }
 
         self.constraint.replace(Box::new(OrConstraint::new(
-            self.constraint.clone().unwrap(),
+            *self.constraint.as_ref().unwrap(),
             constraint
         )));
         Ok(self)
