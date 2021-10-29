@@ -18,6 +18,7 @@ pub trait QueryKind {}
 /// # Struct `Query`
 ///
 /// A query.
+#[allow(dead_code)]
 pub struct Query<T: QueryKind> {
     pub(crate) query: T
 }
