@@ -14,7 +14,7 @@ use crate::{
     }
 };
 
-pub(crate) struct Select<C>;
+pub(crate) struct Select;
 
 impl Select {
     #[must_use]

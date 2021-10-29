@@ -30,9 +30,7 @@ pub struct Query<T: QueryKind> {
 /// The builder for a `Query`.
 pub struct QueryBuilder;
 
-impl QueryBuilder
-where
-    C: ComputableConstraint {
+impl QueryBuilder {
     /// # Static Method `QueryBuilder::select`
     ///
     /// Returns a builder for building a `SELECT` query.
