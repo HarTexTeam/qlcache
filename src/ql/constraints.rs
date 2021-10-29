@@ -166,24 +166,16 @@ pub enum ConstraintOp {
 /// # Struct `AndConstraint`
 ///
 /// An "and" constraint.
-pub struct AndConstraint<L, R>
-where
-    L: ComputableConstraint,
-    R: ComputableConstraint
-{
-    pub(crate) left: L,
-    pub(crate) right: R
+pub struct AndConstraint {
+    pub(crate) left: Box<dyn ComputableConstraint>,
+    pub(crate) right: Box<dyn ComputableConstraint>
 }
 
-impl<L, R> AndConstraint<L, R>
-where
-    L: ComputableConstraint,
-    R: ComputableConstraint
-{
+impl AndConstraint {
     /// # Constructor `AndConstraint::new`
     ///
     /// Constructs a new `And` constraint.
-    pub fn new(left: L, right: R) -> Self {
+    pub fn new(left: Box<dyn ComputableConstraint>, right: Box<dyn ComputableConstraint>) -> Self {
         Self {
             left,
             right
@@ -191,11 +183,7 @@ where
     }
 }
 
-impl<L, R> ComputableConstraint for AndConstraint<L, R>
-where
-    L: ComputableConstraint,
-    R: ComputableConstraint
-{
+impl ComputableConstraint for AndConstraint {
     fn compute(&self) -> bool {
         self.left.compute() && self.right.compute()
     }
@@ -204,24 +192,16 @@ where
 /// # Struct `OrConstraint`
 ///
 /// An "or" constraint.
-pub struct OrConstraint<L, R>
-where
-    L: ComputableConstraint,
-    R: ComputableConstraint
-{
-    pub(crate) left: L,
-    pub(crate) right: R
+pub struct OrConstraint {
+    pub(crate) left: Box<dyn ComputableConstraint>,
+    pub(crate) right: Box<dyn ComputableConstraint>
 }
 
-impl<L, R> OrConstraint<L, R>
-where
-    L: ComputableConstraint,
-    R: ComputableConstraint
-{
+impl OrConstraint {
     /// # Constructor `OrConstraint::new`
     ///
     /// Constructs a new `Or` constraint.
-    pub fn new(left: L, right: R) -> Self {
+    pub fn new(left: Box<dyn ComputableConstraint>, right: Box<dyn ComputableConstraint>) -> Self {
         Self {
             left,
             right
@@ -229,11 +209,7 @@ where
     }
 }
 
-impl<L, R> ComputableConstraint for OrConstraint<L, R>
-where
-    L: ComputableConstraint,
-    R: ComputableConstraint
-{
+impl ComputableConstraint for OrConstraint {
     fn compute(&self) -> bool {
         self.left.compute() || self.right.compute()
     }
