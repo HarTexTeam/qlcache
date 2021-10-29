@@ -9,6 +9,7 @@ use crate::ql::select::{
 
 pub mod constraints;
 pub mod select;
+pub mod sortby;
 
 /// # Trait `QueryKind`
 ///

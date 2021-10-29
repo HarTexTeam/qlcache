@@ -319,6 +319,7 @@ impl SelectBuilder {
 ///
 /// The scope for the `SELECT` query.
 #[allow(clippy::module_name_repetitions)]
+#[derive(Clone, Eq, PartialEq)]
 pub enum SelectScope {
     Everything,
     Fields(Vec<String>)
@@ -328,9 +329,11 @@ pub enum SelectScope {
 mod tests {
     use super::{
         Select,
-        SelectBuilder
+        SelectBuilder,
+        SelectScope
     };
 
     static_assertions::assert_impl_all!(Select: Send, Sync);
     static_assertions::assert_impl_all!(SelectBuilder: Send, Sync);
+    static_assertions::assert_impl_all!(SelectScope: Clone, Eq, PartialEq, Send, Sync);
 }

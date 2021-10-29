@@ -9,7 +9,8 @@
 #[derive(Debug)]
 pub enum QlError {
     NoFirstConstraintFoundBeforeAndOr,
-    RequiredFieldIsNone { field_name: String }
+    RequiredFieldIsNone { field_name: String },
+    VecCannotBeEmpty
 }
 
 /// # Typealias `QlResult`
