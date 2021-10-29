@@ -13,7 +13,7 @@ use crate::{
 /// # Trait `ComputableConstraint`
 ///
 /// A computable constraint, returns whether the constraint is satisfied upon computation.
-pub trait ComputableConstraint {
+pub trait ComputableConstraint: Clone {
     /// # Trait Method `ComputableConstraint::compute`
     ///
     /// Computes this constraint and returns whether the constraint is satisfied.
@@ -166,6 +166,7 @@ pub enum ConstraintOp {
 /// # Struct `AndConstraint`
 ///
 /// An "and" constraint.
+#[derive(Clone)]
 pub struct AndConstraint {
     pub(crate) left: Box<dyn ComputableConstraint>,
     pub(crate) right: Box<dyn ComputableConstraint>
@@ -192,6 +193,7 @@ impl ComputableConstraint for AndConstraint {
 /// # Struct `OrConstraint`
 ///
 /// An "or" constraint.
+#[derive(Clone)]
 pub struct OrConstraint {
     pub(crate) left: Box<dyn ComputableConstraint>,
     pub(crate) right: Box<dyn ComputableConstraint>
