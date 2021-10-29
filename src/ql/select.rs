@@ -91,7 +91,7 @@ impl SelectBuilder {
             return Err(QlError::NoFirstConstraintFoundBeforeAndOr);
         }
 
-        let exist_constraint = self.constraint.unwrap();
+        let exist_constraint = self.constraint.take().unwrap();
 
         self.constraint
             .replace(Box::new(AndConstraint::new(exist_constraint, constraint)));
@@ -116,7 +116,7 @@ impl SelectBuilder {
             return Err(QlError::NoFirstConstraintFoundBeforeAndOr);
         }
 
-        let exist_constraint = self.constraint.unwrap();
+        let exist_constraint = self.constraint.take().unwrap();
 
         self.constraint
             .replace(Box::new(OrConstraint::new(exist_constraint, constraint)));
