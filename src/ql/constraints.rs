@@ -226,7 +226,7 @@ impl OrConstraint {
     ///
     /// Constructs a new `Or` constraint.
     #[must_use]
-    pub fn new(left: BoxedConstraint, right: BoxedConstraint>) -> Self {
+    pub fn new(left: BoxedConstraint, right: BoxedConstraint) -> Self {
         Self {
             left,
             right
