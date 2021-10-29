@@ -53,6 +53,7 @@ impl ComputableConstraint for Constraint {
 /// # Struct `ConstraintBuilder`
 ///
 /// A builder for a `Constraint`.
+#[allow(dead_code)]
 #[derive(Clone)]
 pub struct ConstraintBuilder {
     pub(crate) field_name: Option<String>,
