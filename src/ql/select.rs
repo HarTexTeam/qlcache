@@ -7,10 +7,13 @@ use crate::{
         QlError,
         QlResult
     },
-    ql::constraints::{
-        AndConstraint,
-        BoxedConstraint,
-        OrConstraint
+    ql::{
+        constraints::{
+            AndConstraint,
+            BoxedConstraint,
+            OrConstraint
+        },
+        sortby::SortBy
     }
 };
 
@@ -18,7 +21,8 @@ use crate::{
 pub struct Select {
     pub(crate) table_name: String,
     pub(crate) scope: SelectScope,
-    pub(crate) constraint: Option<BoxedConstraint>
+    pub(crate) constraint: Option<BoxedConstraint>,
+    pub(crate) sort_by: Option<SortBy>
 }
 
 impl Select {
@@ -27,7 +31,8 @@ impl Select {
         SelectBuilder {
             table_name: None,
             scope: None,
-            constraint: None
+            constraint: None,
+            sort_by: None
         }
     }
 }
@@ -192,11 +197,36 @@ impl Select {
 ///     .unwrap()
 ///     .build();
 /// ```
+///
+/// Case 3: Sort Selected Items
+/// - in *descending* order (`SELECT * FROM TableName SORT BY Field1 DESCENDING`):
+/// ```
+/// use qlcache::ql::{
+///     select::SelectScope,
+///     sortby::{
+///         SortBy,
+///         SortOrdering
+///     },
+///     QueryBuilder
+/// };
+///
+/// let select = QueryBuilder::select()
+///     .table_name(String::from("TableName"))
+///     .scope(SelectScope::Everything)
+///     .sort_by(SortBy::new(
+///         vec![String::from("Field1")],
+///         Some(SortOrdering::Descending)).unwrap())
+///     .build()
+///     .unwrap();
+/// ```
+///
+/// Pass in `SortOrdering::Ascending` if you want to sort the items in ascending order instead.
 #[allow(clippy::module_name_repetitions)]
 pub struct SelectBuilder {
     pub(crate) table_name: Option<String>,
     pub(crate) scope: Option<SelectScope>,
-    pub(crate) constraint: Option<BoxedConstraint>
+    pub(crate) constraint: Option<BoxedConstraint>,
+    pub(crate) sort_by: Option<SortBy>
 }
 
 impl SelectBuilder {
@@ -286,6 +316,18 @@ impl SelectBuilder {
         Ok(self)
     }
 
+    /// # Instance Method `SelectBuilder::or`
+    ///
+    /// Configures how results are sorted.
+    ///
+    /// ## Parameters
+    /// - `sort_by`, type `SortBy`: the sort configuration
+    #[must_use]
+    pub fn sort_by(mut self, sort_by: SortBy) -> Self {
+        self.sort_by.replace(sort_by);
+        self
+    }
+
     /// # Instance Method `SelectBuidler::build`
     ///
     /// Consumes the builder and returns a `Select`.
@@ -310,7 +352,8 @@ impl SelectBuilder {
         Ok(Select {
             table_name: self.table_name.unwrap(),
             scope: self.scope.unwrap(),
-            constraint: self.constraint
+            constraint: self.constraint,
+            sort_by: self.sort_by
         })
     }
 }
