@@ -14,7 +14,8 @@ use crate::{
             OrConstraint
         },
         sortby::SortBy,
-        Query
+        Query,
+        QueryKind
     }
 };
 
@@ -360,6 +361,8 @@ impl SelectBuilder {
         })
     }
 }
+
+impl QueryKind for Select {}
 
 /// # Enumeration `SelectScope`
 ///
