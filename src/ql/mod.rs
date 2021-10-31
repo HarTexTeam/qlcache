@@ -2,9 +2,15 @@
 //!
 //! This module implements the query language.
 
-use crate::ql::select::{
-    Select,
-    SelectBuilder
+use crate::ql::{
+    create::{
+        Create,
+        CreateBuilder
+    },
+    select::{
+        Select,
+        SelectBuilder,
+    }
 };
 
 pub mod constraints;
@@ -31,6 +37,13 @@ pub struct Query<T: QueryKind> {
 pub struct QueryBuilder;
 
 impl QueryBuilder {
+    /// # Static Method `QueryBuilder::create`
+    ///
+    /// Returns a builder for building a `CREATE` query.
+    pub fn create() -> CreateBuilder {
+        Create::builder()
+    }
+
     /// # Static Method `QueryBuilder::select`
     ///
     /// Returns a builder for building a `SELECT` query.
