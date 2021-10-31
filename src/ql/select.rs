@@ -44,7 +44,7 @@ impl Select {
 
 /// # Struct `SelectBuilder`
 ///
-/// A builder for a `Select`, constructs a `SELECT query.
+/// A builder for a `Select`, constructs a `SELECT` query.
 ///
 /// ## Examples
 ///

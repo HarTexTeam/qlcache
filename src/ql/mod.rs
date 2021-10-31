@@ -40,6 +40,7 @@ impl QueryBuilder {
     /// # Static Method `QueryBuilder::create`
     ///
     /// Returns a builder for building a `CREATE` query.
+    #[must_use]
     pub fn create() -> CreateBuilder {
         Create::builder()
     }
