@@ -9,7 +9,7 @@ use crate::ql::{
     },
     select::{
         Select,
-        SelectBuilder,
+        SelectBuilder
     }
 };
 
