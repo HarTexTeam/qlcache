@@ -4,7 +4,10 @@
 
 use dashmap::DashMap;
 
-use crate::QlCache;
+use crate::{
+    CacheSchema,
+    QlCache
+};
 
 impl QlCache {
     /// # Constructor `QlCache::new`
@@ -12,8 +15,26 @@ impl QlCache {
     /// Creates a new `QlCache`.
     #[must_use]
     pub fn new() -> Self {
+        let mut dashmap = DashMap::new();
+        let default_schema = String::from("PUBLIC");
+
+        dashmap.insert(default_schema.clone(), CacheSchema::new(default_schema));
+
         Self {
-            cache: DashMap::new()
+            cache: dashmap
+        }
+    }
+}
+
+impl CacheSchema {
+    /// # Constructor `CacheSchema::new`
+    ///
+    /// Creates a new `CacheSchema`.
+    #[must_use]
+    pub fn new(name: String) -> Self {
+        Self {
+            name,
+            tables: DashMap::new()
         }
     }
 }

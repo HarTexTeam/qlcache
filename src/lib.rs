@@ -23,7 +23,23 @@ pub mod ql;
 #[allow(dead_code)]
 #[derive(Clone)]
 pub struct QlCache {
-    pub(crate) cache: DashMap<String, CacheTable>
+    pub(crate) cache: DashMap<String, CacheSchema>
+}
+
+/// # Struct `CacheSchema`
+///
+/// A schema in the cache.
+#[derive(Clone)]
+pub struct CacheSchema {
+    /// # Struct Field `name`
+    ///
+    /// The name of the schema.
+    pub name: String,
+
+    /// # Struct Field `tables`
+    ///
+    /// The tables of the schema.
+    pub tables: DashMap<String, CacheTable>
 }
 
 /// # Struct `CacheTable`
