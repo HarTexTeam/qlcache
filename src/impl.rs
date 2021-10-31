@@ -10,6 +10,7 @@ impl QlCache {
     /// # Constructor `QlCache::new`
     ///
     /// Creates a new `QlCache`.
+    #[must_use]
     pub fn new() -> Self {
         Self {
             cache: DashMap::new()
