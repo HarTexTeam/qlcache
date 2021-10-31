@@ -2,6 +2,23 @@
 //!
 //! This module implements the querying from the cache.
 
+use dashmap::DashMap;
+
 use crate::QlCache;
 
-impl QlCache {}
+impl QlCache {
+    /// # Constructor `QlCache::new`
+    ///
+    /// Creates a new `QlCache`.
+    pub fn new() -> Self {
+        Self {
+            cache: DashMap::new()
+        }
+    }
+}
+
+impl Default for QlCache {
+    fn default() -> Self {
+        Self::new()
+    }
+}

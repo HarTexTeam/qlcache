@@ -13,7 +13,8 @@ use crate::{
             BoxedConstraint,
             OrConstraint
         },
-        sortby::SortBy
+        sortby::SortBy,
+        Query
     }
 };
 
@@ -330,13 +331,13 @@ impl SelectBuilder {
 
     /// # Instance Method `SelectBuidler::build`
     ///
-    /// Consumes the builder and returns a `Select`.
+    /// Consumes the builder and returns a `Query<Select>`.
     ///
     /// ## Errors
     ///
     /// Returns `RequiredFieldIsNone` if any of the fields required is `None`.
     #[allow(clippy::missing_panics_doc)] // this function never panics
-    pub fn build(self) -> QlResult<Select> {
+    pub fn build(self) -> QlResult<Query<Select>> {
         if self.table_name.is_none() {
             return Err(QlError::RequiredFieldIsNone {
                 field_name: String::from("SelectBuilder.table_name")
@@ -349,11 +350,13 @@ impl SelectBuilder {
             });
         }
 
-        Ok(Select {
-            table_name: self.table_name.unwrap(),
-            scope: self.scope.unwrap(),
-            constraint: self.constraint,
-            sort_by: self.sort_by
+        Ok(Query {
+            query: Select {
+                table_name: self.table_name.unwrap(),
+                scope: self.scope.unwrap(),
+                constraint: self.constraint,
+                sort_by: self.sort_by
+            }
         })
     }
 }
