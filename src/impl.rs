@@ -15,7 +15,7 @@ impl QlCache {
     /// Creates a new `QlCache`.
     #[must_use]
     pub fn new() -> Self {
-        let mut dashmap = DashMap::new();
+        let dashmap = DashMap::new();
         let default_schema = String::from("PUBLIC");
 
         dashmap.insert(default_schema.clone(), CacheSchema::new(default_schema));
