@@ -23,7 +23,8 @@ impl Create {
 /// A builder for a `Create`, constructs a `CREATE` query.
 #[allow(clippy::module_name_repetitions)]
 pub struct CreateBuilder {
-    pub(crate) kind: Option<CreateKind>
+    pub(crate) kind: Option<CreateKind>,
+    pub(crate) object_name: Option<String>
 }
 
 impl CreateBuilder {
@@ -36,6 +37,18 @@ impl CreateBuilder {
     #[must_use]
     pub fn kind(mut self, kind: CreateKind) -> Self {
         self.kind.replace(kind);
+        self
+    }
+
+    /// # Instance Method `CreateBuilder::object_name`
+    ///
+    /// Sets the name of the object to create.
+    ///
+    /// ## Parameters
+    /// - `kind`, type `String`; the object name
+    #[must_use]
+    pub fn object_name(mut self, object_name: String) -> Self {
+        self.object_name.replace(object_name);
         self
     }
 }
