@@ -33,6 +33,7 @@ impl CreateBuilder {
     ///
     /// ## Parameters
     /// - `kind`, type `CreateKind`; the object kind
+    #[must_use]
     pub fn kind(mut self, kind: CreateKind) -> Self {
         self.kind.replace(kind);
         self
