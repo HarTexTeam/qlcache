@@ -19,9 +19,9 @@ use crate::{
     }
 };
 
-//! # Struct `Select`
-//!
-//! A `SELECT` query.
+/// # Struct `Select`
+///
+/// A `SELECT` query.
 #[allow(dead_code)]
 pub struct Select {
     pub(crate) table_name: String,

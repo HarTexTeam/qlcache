@@ -2,9 +2,9 @@
 //!
 //! This module implements constraints for the query language.
 
-//! # Struct `Create`
-//!
-//! A `CREATE` query.
+/// # Struct `Create`
+///
+/// A `CREATE` query.
 #[allow(dead_code)]
 pub struct Create {
     pub(crate) kind: CreateKind
@@ -18,9 +18,9 @@ impl Create {
     }
 }
 
-//! # Struct `CreateBuilder`
-//!
-//! A builder for a `Create`, constructs a `CREATE` query.
+/// # Struct `CreateBuilder`
+///
+/// A builder for a `Create`, constructs a `CREATE` query.
 #[allow(clippy::module_name_repetitions)]
 pub struct CreateBuilder {
     pub(crate) kind: Option<CreateKind>
@@ -39,9 +39,9 @@ impl CreateBuilder {
     }
 }
 
-//! # Enumeration `CreateKind`
-//!
-//! The kind of object to create.
+/// # Enumeration `CreateKind`
+///
+/// The kind of object to create.
 #[allow(clippy::module_name_repetitions)]
 #[derive(Clone, Eq, PartialEq)]
 pub enum CreateKind {
