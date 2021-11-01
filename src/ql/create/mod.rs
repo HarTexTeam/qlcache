@@ -27,12 +27,9 @@ pub struct CreateBuilder;
 impl CreateBuilder {
     /// # Instance Method `CreateBuilder::kind`
     ///
-    /// Sets the kind of object to create in the cache.
-    ///
-    /// ## Parameters
-    /// - `kind`, type `CreateKind`; the object kind
+    /// Returns a builder for a `CREATE TABLE` query.
     #[must_use]
-    pub fn table(mut self) -> CreateTableBuilder {
+    pub fn table(self) -> CreateTableBuilder {
         CreateTableBuilder {
             name: None
         }
