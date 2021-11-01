@@ -28,6 +28,7 @@ impl CreateBuilder {
     /// # Instance Method `CreateBuilder::kind`
     ///
     /// Returns a builder for a `CREATE TABLE` query.
+    #[allow(clippy::unused_self)]
     #[must_use]
     pub fn table(self) -> CreateTableBuilder {
         CreateTableBuilder {
