@@ -13,7 +13,8 @@ pub struct Create {
 impl Create {
     pub(crate) fn builder() -> CreateBuilder {
         CreateBuilder {
-            kind: None
+            kind: None,
+            object_name: None
         }
     }
 }
