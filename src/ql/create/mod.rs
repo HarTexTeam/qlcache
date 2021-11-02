@@ -38,6 +38,7 @@ impl CreateBuilder {
     }
 }
 
+#[cfg(test)]
 mod tests {
     use super::{
         Create,
