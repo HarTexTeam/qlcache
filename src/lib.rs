@@ -113,7 +113,10 @@ pub enum ColumnValue {
     U128(u128),
 
     // text
-    String(String)
+    String(String),
+
+    // null
+    Null
 }
 
 #[cfg(test)]

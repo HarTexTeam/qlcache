@@ -32,7 +32,8 @@ impl CreateBuilder {
     #[must_use]
     pub fn table(self) -> CreateTableBuilder {
         CreateTableBuilder {
-            name: None
+            name: None,
+            columns: Vec::new()
         }
     }
 }
