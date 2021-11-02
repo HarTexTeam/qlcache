@@ -14,7 +14,10 @@ use crate::{
     ColumnDataType
 };
 
-#[allow(dead_code)]
+/// # Struct `CreateTable`
+///
+/// A `CREATE TABLE` query.
+#[allow(clippy::module_name_repetitions, dead_code)]
 pub struct CreateTable {
     pub(crate) name: String,
     pub(crate) columns: Vec<(String, (ColumnDataType, bool))>
@@ -97,4 +100,3 @@ mod tests {
     static_assertions::assert_impl_all!(CreateTable: QueryKind, Send, Sync);
     static_assertions::assert_impl_all!(CreateTableBuilder: Send, Sync);
 }
-

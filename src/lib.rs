@@ -8,7 +8,7 @@
 //!
 //! An object-relational in-memory cache, supports queries with an SQL-like query language.
 
-#![deny(clippy::pedantic, warnings)]
+#![deny(clippy::pedantic, missing_docs, warnings)]
 #![feature(format_args_capture)]
 
 use dashmap::DashMap;
