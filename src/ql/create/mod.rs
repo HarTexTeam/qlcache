@@ -37,3 +37,13 @@ impl CreateBuilder {
         }
     }
 }
+
+mod tests {
+    use super::{
+        Create,
+        CreateBuilder
+    };
+
+    static_assertions::assert_impl_all!(Create: Send, Sync);
+    static_assertions::assert_impl_all!(CreateBuilder: Send, Sync);
+}

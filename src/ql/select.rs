@@ -380,12 +380,13 @@ pub enum SelectScope {
 #[cfg(test)]
 mod tests {
     use super::{
+        QueryKind,
         Select,
         SelectBuilder,
         SelectScope
     };
 
-    static_assertions::assert_impl_all!(Select: Send, Sync);
+    static_assertions::assert_impl_all!(Select: QueryKind, Send, Sync);
     static_assertions::assert_impl_all!(SelectBuilder: Send, Sync);
     static_assertions::assert_impl_all!(SelectScope: Clone, Eq, PartialEq, Send, Sync);
 }

@@ -2,9 +2,27 @@
 //!
 //! This module implements the `CREATE TABLE` query.
 
-use crate::ColumnDataType;
+use crate::{
+    error::{
+        QlError,
+        QlResult
+    },
+    ql::{
+        Query,
+        QueryKind
+    },
+    ColumnDataType
+};
 
-/// # Struct `CreateBuilder`
+#[allow(dead_code)]
+pub struct CreateTable {
+    pub(crate) name: String,
+    pub(crate) columns: Vec<(String, (ColumnDataType, bool))>
+}
+
+impl QueryKind for CreateTable {}
+
+/// # Struct `CreateTableBuilder`
 ///
 /// A builder for a `Create`, constructs a `CREATE TABLE` query.
 pub struct CreateTableBuilder {
@@ -43,4 +61,40 @@ impl CreateTableBuilder {
         self.columns = fields.collect();
         self
     }
+
+    /// # Instance Method `CreateTableBuilder::build`
+    ///
+    /// Consumes the builder and returns a `Query<CreateTable>`.
+    ///
+    /// ## Errors
+    ///
+    /// Returns `RequiredFieldIsNone` if any of the fields required is `None`.
+    #[allow(clippy::missing_panics_doc)] // this function never panics
+    pub fn build(self) -> QlResult<Query<CreateTable>> {
+        if self.name.is_none() {
+            return Err(QlError::RequiredFieldIsNone {
+                field_name: String::from("name")
+            });
+        }
+
+        Ok(Query {
+            query: CreateTable {
+                name: self.name.unwrap(),
+                columns: self.columns
+            }
+        })
+    }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::{
+        CreateTable,
+        CreateTableBuilder,
+        QueryKind
+    };
+
+    static_assertions::assert_impl_all!(CreateTable: QueryKind, Send, Sync);
+    static_assertions::assert_impl_all!(CreateTableBuilder: Send, Sync);
+}
+
