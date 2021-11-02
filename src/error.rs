@@ -6,6 +6,7 @@
 ///
 /// An enumeration representing various errors types.
 #[allow(clippy::module_name_repetitions)]
+#[allow(missing_docs)]  // variants are pretty self explanatory?
 #[derive(Debug)]
 pub enum QlError {
     NoFirstConstraintFoundBeforeAndOr,

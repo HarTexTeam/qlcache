@@ -77,6 +77,7 @@ pub struct CacheTableRow {
 /// # Enumeration `ColumnDataType`
 ///
 /// The datatype of a column. Almost all of the variants correspond to their Rust types.
+#[allow(missing_docs)]  // variants are pretty self explanatory?
 #[derive(Clone, Eq, PartialEq)]
 pub enum ColumnDataType {
     // integer types
@@ -98,6 +99,7 @@ pub enum ColumnDataType {
 /// # Enumeration `ColumnValue`
 ///
 /// The value of a column.
+#[allow(missing_docs)]  // variants are pretty self explanatory?
 #[derive(Clone, Eq, PartialEq)]
 pub enum ColumnValue {
     // integer types
