@@ -371,6 +371,7 @@ impl QueryKind for Select {}
 ///
 /// The scope for the `SELECT` query.
 #[allow(clippy::module_name_repetitions)]
+#[allow(missing_docs)]  // variants are pretty self explanatory?
 #[derive(Clone, Eq, PartialEq)]
 pub enum SelectScope {
     Everything,

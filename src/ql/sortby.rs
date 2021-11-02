@@ -40,6 +40,7 @@ impl SortBy {
 /// # Struct `SortOrdering`
 ///
 /// Sort items according to a certain column and a certain order.
+#[allow(missing_docs)]  // variants are pretty self explanatory?
 #[derive(Clone, Eq, PartialEq)]
 pub enum SortOrdering {
     Ascending,
