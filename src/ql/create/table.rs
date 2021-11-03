@@ -151,7 +151,7 @@ impl CreateTableBuilder {
         mut self,
         fields: impl IntoIterator<Item = (String, (ColumnDataType, bool))>
     ) -> Self {
-        self.columns = fields.collect();
+        self.columns = fields.into_iter().collect();
         self
     }
 
