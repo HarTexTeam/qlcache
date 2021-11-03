@@ -34,7 +34,8 @@ impl CreateBuilder {
         CreateTableBuilder {
             name: None,
             columns: Vec::new(),
-            primary_key: None
+            primary_key: None,
+            schema: None
         }
     }
 }
