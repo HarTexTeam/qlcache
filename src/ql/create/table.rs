@@ -23,7 +23,8 @@ use crate::{
 pub struct CreateTable {
     pub(crate) name: String,
     pub(crate) columns: Vec<(String, (ColumnDataType, bool))>,
-    pub(crate) primary_key: Option<PrimaryKey>
+    pub(crate) primary_key: Option<PrimaryKey>,
+    pub(crate) schema: String
 }
 
 impl QueryKind for CreateTable {
@@ -37,10 +38,89 @@ impl QueryKind for CreateTable {
 /// # Struct `CreateTableBuilder`
 ///
 /// A builder for a `Create`, constructs a `CREATE TABLE` query.
+///
+/// ## Examples
+///
+/// - `CREATE TABLE TableName`:
+/// ```
+/// use qlcache::ql::QueryBuilder;
+///
+/// let create_table = QueryBuilder::create()
+///     .table()
+///     .name(String::from("TableName"))
+///     .build()
+///     .unwrap();
+/// ```
+///
+/// - `CREATE TABLE TableName COLUMNS (Field1 STRING NOT NULL, Field2 U64)`
+/// ```
+/// use qlcache::{
+///     ql::QueryBuilder,
+///     ColumnDataType
+/// };
+///
+/// let create_table = QueryBuilder::create()
+///     .table()
+///     .name(String::from("TableName"))
+///     .columns(vec![
+///         (String::from("Field1"), (ColumnDataType::String, false)),
+///         (String::from("Field2"), (ColumnDataType::U64, true))
+///     ])
+///     .build()
+///     .unwrap();
+/// ```
+///
+/// - `CREATE TABLE TableName COLUMNS (Field1 STRING NOT NULL, Field2 U64 PRIMARY KEY)`
+/// ```
+/// use qlcache::{
+///     ql::{
+///         key::PrimaryKey,
+///         QueryBuilder
+///     },
+///     ColumnDataType
+/// };
+///
+/// let create_table = QueryBuilder::create()
+///     .table()
+///     .name(String::from("TableName"))
+///     .columns(vec![
+///         (String::from("Field1"), (ColumnDataType::String, false)),
+///         (String::from("Field2"), (ColumnDataType::U64, true))
+///     ])
+///     .primary_key(PrimaryKey::new(String::from("Field2")))
+///     .unwrap()
+///     .build()
+///     .unwrap();
+/// ```
+///
+/// - `CREATE TABLE SchemaName.TableName COLUMNS (Field1 STRING NOT NULL, Field2 U64 PRIMARY KEY)`
+/// ```
+/// use qlcache::{
+///     ql::{
+///         key::PrimaryKey,
+///         QueryBuilder
+///     },
+///     ColumnDataType
+/// };
+///
+/// let create_table = QueryBuilder::create()
+///     .table()
+///     .schema(String::from("SchemaName"))
+///     .name(String::from("TableName"))
+///     .columns(vec![
+///         (String::from("Field1"), (ColumnDataType::String, false)),
+///         (String::from("Field2"), (ColumnDataType::U64, true))
+///     ])
+///     .primary_key(PrimaryKey::new(String::from("Field2")))
+///     .unwrap()
+///     .build()
+///     .unwrap();
+/// ```
 pub struct CreateTableBuilder {
     pub(crate) name: Option<String>,
     pub(crate) columns: Vec<(String, (ColumnDataType, bool))>,
-    pub(crate) primary_key: Option<PrimaryKey>
+    pub(crate) primary_key: Option<PrimaryKey>,
+    pub(crate) schema: Option<String>
 }
 
 impl CreateTableBuilder {
@@ -116,6 +196,18 @@ impl CreateTableBuilder {
         Ok(self)
     }
 
+    /// # Instance Method `CreateTableBuilder::schema`
+    ///
+    /// Sets the parent schema for this table to be created.
+    ///
+    /// ## Parameters
+    /// - `schema`, type `String`; the parent schema name
+    #[must_use]
+    pub fn schema(mut self, schema: String) -> Self {
+        self.schema.replace(schema);
+        self
+    }
+
     /// # Instance Method `CreateTableBuilder::build`
     ///
     /// Consumes the builder and returns a `Query<CreateTable>`.
@@ -135,7 +227,8 @@ impl CreateTableBuilder {
             query: CreateTable {
                 name: self.name.unwrap(),
                 columns: self.columns,
-                primary_key: self.primary_key
+                primary_key: self.primary_key,
+                schema: self.schema.unwrap_or(String::from("PUBLIC"))
             }
         })
     }
