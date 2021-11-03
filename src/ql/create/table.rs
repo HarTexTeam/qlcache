@@ -91,7 +91,7 @@ impl CreateTableBuilder {
             return Err(QlError::ColumnDoesNotExist);
         }
 
-        let (i, mut field) = iterator
+        let (i, field) = iterator
             .enumerate()
             .find(|(_, (name, _))| name.eq(&primary_key.0))
             .unwrap();
