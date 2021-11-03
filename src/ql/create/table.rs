@@ -12,7 +12,8 @@ use crate::{
         Query,
         QueryKind
     },
-    ColumnDataType
+    ColumnDataType,
+    QlCache
 };
 
 /// # Struct `CreateTable`
@@ -25,7 +26,13 @@ pub struct CreateTable {
     pub(crate) primary_key: Option<PrimaryKey>
 }
 
-impl QueryKind for CreateTable {}
+impl QueryKind for CreateTable {
+    type ResultType = ();
+
+    fn execute(&self, _: QlCache) -> QlResult<Self::ResultType> {
+        todo!()
+    }
+}
 
 /// # Struct `CreateTableBuilder`
 ///
@@ -98,6 +105,7 @@ impl CreateTableBuilder {
             .unwrap();
 
         self.columns[i] = {
+            // primary keys cannot be null, so reflect that
             let mut field = field.clone();
             field.1.1 = false;
 

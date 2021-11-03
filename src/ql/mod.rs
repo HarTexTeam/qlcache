@@ -2,15 +2,19 @@
 //!
 //! This module implements the query language.
 
-use crate::ql::{
-    create::{
-        Create,
-        CreateBuilder
+use crate::{
+    error::QlResult,
+    ql::{
+        create::{
+            Create,
+            CreateBuilder
+        },
+        select::{
+            Select,
+            SelectBuilder
+        },
     },
-    select::{
-        Select,
-        SelectBuilder
-    }
+    QlCache
 };
 
 pub mod constraints;
@@ -22,7 +26,17 @@ pub mod sortby;
 /// # Trait `QueryKind`
 ///
 /// The super trait for various query kinds.
-pub trait QueryKind {}
+pub trait QueryKind {
+    /// # Trait Associated Type `ResultType`
+    ///
+    /// The type of the returned result from this query.
+    type ResultType;
+
+    /// # Trait Method `QueryKind::execute`
+    ///
+    /// Executes the query.
+    fn execute(&self, cache: QlCache) -> QlResult<Self::ResultType>;
+}
 
 /// # Struct `Query`
 ///

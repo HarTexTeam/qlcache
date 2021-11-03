@@ -16,7 +16,8 @@ use crate::{
         sortby::SortBy,
         Query,
         QueryKind
-    }
+    },
+    QlCache
 };
 
 /// # Struct `Select`
@@ -365,7 +366,13 @@ impl SelectBuilder {
     }
 }
 
-impl QueryKind for Select {}
+impl QueryKind for Select {
+    type ResultType = ();
+
+    fn execute(&self, _: QlCache) -> QlResult<Self::ResultType> {
+        todo!()
+    }
+}
 
 /// # Enumeration `SelectScope`
 ///
