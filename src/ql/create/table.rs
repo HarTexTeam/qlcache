@@ -175,7 +175,7 @@ impl CreateTableBuilder {
 
         let mut iterator = self.columns.iter();
 
-        if !iterator.any(|(name, _)| name.eq(&primary_key.0)) {
+        if iterator.find(|(_, (name, _))| name.eq(&primary_key.0)).is_none() {
             return Err(QlError::ColumnDoesNotExist);
         }
 
