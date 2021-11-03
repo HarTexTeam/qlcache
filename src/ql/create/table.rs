@@ -149,7 +149,7 @@ impl CreateTableBuilder {
     #[must_use]
     pub fn columns(
         mut self,
-        fields: impl Iterator<Item = (String, (ColumnDataType, bool))>
+        fields: impl IntoIterator<Item = (String, (ColumnDataType, bool))>
     ) -> Self {
         self.columns = fields.collect();
         self
@@ -228,7 +228,7 @@ impl CreateTableBuilder {
                 name: self.name.unwrap(),
                 columns: self.columns,
                 primary_key: self.primary_key,
-                schema: self.schema.unwrap_or(String::from("PUBLIC"))
+                schema: self.schema.unwrap_or_else(|| String::from("PUBLIC"))
             }
         })
     }
