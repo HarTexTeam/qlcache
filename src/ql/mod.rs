@@ -12,7 +12,7 @@ use crate::{
         select::{
             Select,
             SelectBuilder
-        },
+        }
     },
     QlCache
 };
@@ -35,6 +35,10 @@ pub trait QueryKind {
     /// # Trait Method `QueryKind::execute`
     ///
     /// Executes the query.
+    ///
+    /// ## Errors
+    ///
+    /// Returns query-related errors.
     fn execute(&self, cache: QlCache) -> QlResult<Self::ResultType>;
 }
 
