@@ -87,17 +87,21 @@ impl CreateTableBuilder {
 
         let mut iterator = self.columns.iter();
 
-        if iterator.find(|(name, _)| *name.eq(&primary_key.0)).is_none() {
+        if iterator.find(|(name, _)| name.eq(&primary_key.0)).is_none() {
             return Err(QlError::ColumnDoesNotExist);
         }
 
-        let (i, &mut mut field) = iterator
+        let (i, mut field) = iterator
             .enumerate()
-            .find(|(_, (name, _))| *name.eq(&primary_key.0))
+            .find(|(_, (name, _))| name.eq(&primary_key.0))
             .unwrap();
 
-        field.1.1 = false;
-        self.columns[i] = field;
+        self.columns[i] = {
+            let mut field = field.clone();
+            field.1.1 = false;
+
+            field
+        };
 
         self.primary_key.replace(primary_key);
         Ok(self)
