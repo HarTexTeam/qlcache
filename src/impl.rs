@@ -13,6 +13,14 @@ impl QlCache {
     /// # Constructor `QlCache::new`
     ///
     /// Creates a new `QlCache`.
+    ///
+    /// ## Example
+    ///
+    /// ```
+    /// use qlcache::QlCache;
+    ///
+    /// let cache = QlCache::new();
+    /// ```
     #[must_use]
     pub fn new() -> Self {
         let dashmap = DashMap::new();

@@ -8,6 +8,7 @@ use crate::{
         QlResult
     },
     ql::{
+        key::PrimaryKey,
         Query,
         QueryKind
     },
@@ -20,7 +21,8 @@ use crate::{
 #[allow(clippy::module_name_repetitions, dead_code)]
 pub struct CreateTable {
     pub(crate) name: String,
-    pub(crate) columns: Vec<(String, (ColumnDataType, bool))>
+    pub(crate) columns: Vec<(String, (ColumnDataType, bool))>,
+    pub(crate) primary_key: Option<PrimaryKey>
 }
 
 impl QueryKind for CreateTable {}
@@ -30,7 +32,8 @@ impl QueryKind for CreateTable {}
 /// A builder for a `Create`, constructs a `CREATE TABLE` query.
 pub struct CreateTableBuilder {
     pub(crate) name: Option<String>,
-    pub(crate) columns: Vec<(String, (ColumnDataType, bool))>
+    pub(crate) columns: Vec<(String, (ColumnDataType, bool))>,
+    pub(crate) primary_key: Option<PrimaryKey>
 }
 
 impl CreateTableBuilder {
@@ -65,6 +68,41 @@ impl CreateTableBuilder {
         self
     }
 
+    /// # Instance Method `CreateTableBuilder::primary_key`
+    ///
+    /// Sets the primary key for this table.
+    ///
+    /// ## Parameters
+    /// - `primary_key`, type `PrimaryKey`; the primary key
+    ///
+    /// ## Errors
+    ///
+    /// Returns `PrimaryKeyAlreadySet` if the primary key of the table has already been set;
+    /// returns `ColumnDoesNotExist` of the name of the primary key does not exist as a column in
+    /// the table.
+    pub fn primary_key(mut self, primary_key: PrimaryKey) -> QlResult<Self> {
+        if self.primary_key.is_some() {
+            return Err(QlError::PrimaryKeyAlreadySet);
+        }
+
+        let mut iterator = self.columns.iter();
+
+        if iterator.find(|(name, _)| *name.eq(&primary_key.0)).is_none() {
+            return Err(QlError::ColumnDoesNotExist);
+        }
+
+        let (i, &mut mut field) = iterator
+            .enumerate()
+            .find(|(_, (name, _))| *name.eq(&primary_key.0))
+            .unwrap();
+
+        field.1.1 = false;
+        self.columns[i] = field;
+
+        self.primary_key.replace(primary_key);
+        Ok(self)
+    }
+
     /// # Instance Method `CreateTableBuilder::build`
     ///
     /// Consumes the builder and returns a `Query<CreateTable>`.
@@ -83,7 +121,8 @@ impl CreateTableBuilder {
         Ok(Query {
             query: CreateTable {
                 name: self.name.unwrap(),
-                columns: self.columns
+                columns: self.columns,
+                primary_key: self.primary_key
             }
         })
     }

@@ -9,7 +9,9 @@
 #[allow(missing_docs)] // variants are pretty self explanatory?
 #[derive(Debug)]
 pub enum QlError {
+    ColumnDoesNotExist,
     NoFirstConstraintFoundBeforeAndOr,
+    PrimaryKeyAlreadySet,
     RequiredFieldIsNone { field_name: String },
     VecCannotBeEmpty
 }

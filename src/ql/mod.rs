@@ -15,6 +15,7 @@ use crate::ql::{
 
 pub mod constraints;
 pub mod create;
+pub mod key;
 pub mod select;
 pub mod sortby;
 
