@@ -173,7 +173,7 @@ impl CreateTableBuilder {
             return Err(QlError::PrimaryKeyAlreadySet);
         }
 
-        let mut iterator = self.columns.iter();
+        let iterator = self.columns.iter();
 
         if let Some((i, field)) = iterator
             .enumerate()
