@@ -167,7 +167,7 @@ impl CreateTableBuilder {
     /// Returns `PrimaryKeyAlreadySet` if the primary key of the table has already been set;
     /// returns `ColumnDoesNotExist` of the name of the primary key does not exist as a column in
     /// the table.
-    #[allow(clippy::missing_panics_doc)] // this function never panics
+    #[allow(clippy::missing_panics_doc, clippy::search_is_some)] // this function never panics
     pub fn primary_key(mut self, primary_key: PrimaryKey) -> QlResult<Self> {
         if self.primary_key.is_some() {
             return Err(QlError::PrimaryKeyAlreadySet);
@@ -175,22 +175,21 @@ impl CreateTableBuilder {
 
         let mut iterator = self.columns.iter();
 
-        if iterator.find(|(name, _)| name.eq(&primary_key.0)).is_none() {
-            return Err(QlError::ColumnDoesNotExist);
-        }
-
-        let (i, field) = iterator
+        if let Some((i, field)) = iterator
             .enumerate()
             .find(|(_, (name, _))| name.eq(&primary_key.0))
-            .unwrap();
+        {
+            self.columns[i] = {
+                // primary keys cannot be null, so reflect that
+                let mut field = field.clone();
+                field.1.1 = false;
 
-        self.columns[i] = {
-            // primary keys cannot be null, so reflect that
-            let mut field = field.clone();
-            field.1.1 = false;
-
-            field
-        };
+                field
+            };
+        }
+        else {
+            return Err(QlError::ColumnDoesNotExist);
+        }
 
         self.primary_key.replace(primary_key);
         Ok(self)
