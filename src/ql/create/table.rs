@@ -38,7 +38,7 @@ impl QueryKind for CreateTable {
 
 /// # Struct `CreateTableBuilder`
 ///
-/// A builder for a `Create`, constructs a `CREATE TABLE` query.
+/// A builder for a `CreateTable`, constructs a `CREATE TABLE` query.
 ///
 /// ## Examples
 ///

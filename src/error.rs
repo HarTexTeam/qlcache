@@ -12,8 +12,18 @@ pub enum QlError {
     ColumnDoesNotExist,
     NoFirstConstraintFoundBeforeAndOr,
     PrimaryKeyAlreadySet,
+    QueryError(QueryError),
     RequiredFieldIsNone { field_name: String },
     VecCannotBeEmpty
+}
+
+/// # Enumeration `QueryError`
+///
+/// An enumeration representing various errors types regarding queries.
+#[allow(missing_docs)] // variants are pretty self explanatory?
+#[derive(Debug)]
+pub enum QueryError {
+    ObjectAlreadyExists
 }
 
 /// # Typealias `QlResult`

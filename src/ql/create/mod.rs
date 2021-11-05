@@ -36,7 +36,8 @@ impl CreateBuilder {
     #[must_use]
     pub fn schema(self) -> CreateSchemaBuilder {
         CreateSchemaBuilder {
-            name: None
+            name: None,
+            if_not_exist: false
         }
     }
 
