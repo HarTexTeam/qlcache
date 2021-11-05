@@ -39,10 +39,13 @@ impl QueryKind for CreateSchema {
             return Ok(());
         }
 
-        cache.cache.insert(self.name.clone(), CacheSchema {
-            name: self.name,
-            tables: DashMap::new()
-        });
+        cache.cache.insert(
+            self.name.clone(),
+            CacheSchema {
+                name: self.name,
+                tables: DashMap::new()
+            }
+        );
 
         Ok(())
     }

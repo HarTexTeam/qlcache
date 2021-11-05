@@ -20,6 +20,7 @@ pub enum QlError {
 /// # Enumeration `QueryError`
 ///
 /// An enumeration representing various errors types regarding queries.
+#[allow(clippy::module_name_repetitions)]
 #[allow(missing_docs)] // variants are pretty self explanatory?
 #[derive(Debug)]
 pub enum QueryError {
