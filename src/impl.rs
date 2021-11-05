@@ -5,6 +5,11 @@
 use dashmap::DashMap;
 
 use crate::{
+    error::QlResult,
+    ql::{
+        Query,
+        QueryKind
+    },
     CacheSchema,
     QlCache
 };
@@ -31,6 +36,16 @@ impl QlCache {
         Self {
             cache: dashmap
         }
+    }
+
+    /// # Instance Method `QlCache::execute`
+    ///
+    /// Executes a query.
+    ///
+    /// ## Parameters
+    /// - `query`, type `Query<T> where T: QueryKind`; the query to execute
+    pub fn execute<T: QueryKind>(&self, query: Query<T>) -> QlResult<T::ResultType> {
+        todo!()
     }
 }
 

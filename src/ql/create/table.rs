@@ -31,7 +31,7 @@ pub struct CreateTable {
 impl QueryKind for CreateTable {
     type ResultType = ();
 
-    fn execute(&self, _: QlCache) -> QlResult<Self::ResultType> {
+    fn execute(&self, _: &QlCache) -> QlResult<Self::ResultType> {
         todo!()
     }
 }

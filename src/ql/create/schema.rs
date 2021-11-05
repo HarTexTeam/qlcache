@@ -25,7 +25,7 @@ pub struct CreateSchema {
 impl QueryKind for CreateSchema {
     type ResultType = ();
 
-    fn execute(&self, _: QlCache) -> QlResult<Self::ResultType> {
+    fn execute(&self, _: &QlCache) -> QlResult<Self::ResultType> {
         todo!()
     }
 }
