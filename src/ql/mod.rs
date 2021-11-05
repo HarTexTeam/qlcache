@@ -39,7 +39,7 @@ pub trait QueryKind {
     /// ## Errors
     ///
     /// Returns query-related errors.
-    fn execute(&self, cache: &QlCache) -> QlResult<Self::ResultType>;
+    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType>;
 }
 
 /// # Struct `Query`
@@ -51,7 +51,7 @@ pub struct Query<T: QueryKind> {
 }
 
 impl<T: QueryKind> Query<T> {
-    pub fn execute(&self, cache: &QlCache) -> QlResult<T::ResultType> {
+    pub fn execute(self, cache: &QlCache) -> QlResult<T::ResultType> {
         self.query.execute(cache)
     }
 }
