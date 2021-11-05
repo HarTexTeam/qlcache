@@ -24,7 +24,8 @@ pub struct CreateTable {
     pub(crate) name: String,
     pub(crate) columns: Vec<(String, (ColumnDataType, bool))>,
     pub(crate) primary_key: Option<PrimaryKey>,
-    pub(crate) schema: String
+    pub(crate) schema: String,
+    pub(crate) if_not_exist: bool
 }
 
 impl QueryKind for CreateTable {
@@ -47,6 +48,18 @@ impl QueryKind for CreateTable {
 ///
 /// let create_table = QueryBuilder::create()
 ///     .table()
+///     .name(String::from("TableName"))
+///     .build()
+///     .unwrap();
+/// ```
+///
+/// - `CREATE TABLE IF NOT EXIST TableName`
+/// ```
+/// use qlcache::ql::QueryBuilder;;
+///
+/// let create_table = QueryBuilder::create()
+///     .table()
+///     .if_not_exist()
 ///     .name(String::from("TableName"))
 ///     .build()
 ///     .unwrap();
@@ -120,7 +133,8 @@ pub struct CreateTableBuilder {
     pub(crate) name: Option<String>,
     pub(crate) columns: Vec<(String, (ColumnDataType, bool))>,
     pub(crate) primary_key: Option<PrimaryKey>,
-    pub(crate) schema: Option<String>
+    pub(crate) schema: Option<String>,
+    pub(crate) if_not_exist: bool
 }
 
 impl CreateTableBuilder {
@@ -207,6 +221,15 @@ impl CreateTableBuilder {
         self
     }
 
+    /// # Instance Method `CreateTableBuilder::if_not_exist`
+    ///
+    /// Sets the table to be created if it does not exist yet, otherwise does nothing.
+    #[must_use]
+    pub fn if_not_exist(mut self) -> Self {
+        self.if_not_exist = true;
+        self
+    }
+
     /// # Instance Method `CreateTableBuilder::build`
     ///
     /// Consumes the builder and returns a `Query<CreateTable>`.
@@ -228,6 +251,7 @@ impl CreateTableBuilder {
                 columns: self.columns,
                 primary_key: self.primary_key,
                 schema: self.schema.unwrap_or_else(|| String::from("PUBLIC"))
+                if_not_exist: self.if_not_exist
             }
         })
     }

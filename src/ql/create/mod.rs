@@ -2,8 +2,12 @@
 //!
 //! This module implements the `CREATE` query.
 
-use crate::ql::create::table::CreateTableBuilder;
+use crate::ql::create::{
+    schema::CreateSchemaBuilder,
+    table::CreateTableBuilder
+};
 
+pub mod schema;
 pub mod table;
 
 /// # Struct `Create`
@@ -25,7 +29,16 @@ impl Create {
 pub struct CreateBuilder;
 
 impl CreateBuilder {
-    /// # Instance Method `CreateBuilder::kind`
+    /// # Instance Method `CreateBuilder::schema`
+    ///
+    /// Returns a builder for a `CREATE SCHEMA` query.
+    pub fn schema(self) -> CreateSchemaBuilder {
+        CreateSchemaBuilder {
+            name: None
+        }
+    }
+
+    /// # Instance Method `CreateBuilder::table`
     ///
     /// Returns a builder for a `CREATE TABLE` query.
     #[allow(clippy::unused_self)]
@@ -35,7 +48,8 @@ impl CreateBuilder {
             name: None,
             columns: Vec::new(),
             primary_key: None,
-            schema: None
+            schema: None,
+            if_not_exist: false
         }
     }
 }
