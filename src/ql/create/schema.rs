@@ -2,13 +2,17 @@
 //!
 //! This module implements the `CREATE SCHEMA` query.
 
-use crate::{error::{
-    QlError,
-    QlResult
-}, ql::{
-    Query,
-    QueryKind
-}, QlCache};
+use crate::{
+    error::{
+        QlError,
+        QlResult
+    },
+    ql::{
+        Query,
+        QueryKind
+    },
+    QlCache
+};
 
 /// # Struct `CreateSchema`
 ///
