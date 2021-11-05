@@ -7,8 +7,8 @@ use dashmap::DashMap;
 use crate::{
     error::{
         QlError,
-        QueryError,
-        QlResult
+        QlResult,
+        QueryError
     },
     ql::{
         Query,
