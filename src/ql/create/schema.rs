@@ -2,13 +2,13 @@
 //!
 //! This module implements the `CREATE SCHEMA` query.
 
-use crate::{
-    error::{
-        QlError,
-        QlResult
-    },
-    ql::Query
-};
+use crate::{error::{
+    QlError,
+    QlResult
+}, ql::{
+    Query,
+    QueryKind
+}, QlCache};
 
 /// # Struct `CreateSchema`
 ///
@@ -16,6 +16,14 @@ use crate::{
 #[allow(clippy::module_name_repetitions, dead_code)]
 pub struct CreateSchema {
     pub(crate) name: String
+}
+
+impl QueryKind for CreateSchema {
+    type ResultType = ();
+
+    fn execute(&self, _: QlCache) -> QlResult<Self::ResultType> {
+        todo!()
+    }
 }
 
 /// # Struct `CreateSchemaBuilder`

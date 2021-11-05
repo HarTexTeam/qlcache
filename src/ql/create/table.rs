@@ -250,7 +250,7 @@ impl CreateTableBuilder {
                 name: self.name.unwrap(),
                 columns: self.columns,
                 primary_key: self.primary_key,
-                schema: self.schema.unwrap_or_else(|| String::from("PUBLIC"))
+                schema: self.schema.unwrap_or_else(|| String::from("PUBLIC")),
                 if_not_exist: self.if_not_exist
             }
         })
