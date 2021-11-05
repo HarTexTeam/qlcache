@@ -51,6 +51,12 @@ pub struct Query<T: QueryKind> {
 }
 
 impl<T: QueryKind> Query<T> {
+    /// # Instance Method `Query::execute`
+    ///
+    /// Executes a query.
+    ///
+    /// ## Parameters
+    /// - `cache`, type `&QlCache`; the cache to execute this query on
     pub fn execute(self, cache: &QlCache) -> QlResult<T::ResultType> {
         self.query.execute(cache)
     }
