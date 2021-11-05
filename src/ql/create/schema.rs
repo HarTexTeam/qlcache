@@ -40,6 +40,7 @@ impl CreateSchemaBuilder {
     ///
     /// ## Parameters
     /// - `name`, type `String`; the name of the schema
+    #[must_use]
     pub fn name(mut self, name: String) -> Self {
         self.name.replace(name);
         self

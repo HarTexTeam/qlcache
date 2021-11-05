@@ -32,6 +32,8 @@ impl CreateBuilder {
     /// # Instance Method `CreateBuilder::schema`
     ///
     /// Returns a builder for a `CREATE SCHEMA` query.
+    #[allow(clippy::unused_self)]
+    #[must_use]
     pub fn schema(self) -> CreateSchemaBuilder {
         CreateSchemaBuilder {
             name: None
