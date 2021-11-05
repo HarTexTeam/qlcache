@@ -57,6 +57,10 @@ impl<T: QueryKind> Query<T> {
     ///
     /// ## Parameters
     /// - `cache`, type `&QlCache`; the cache to execute this query on
+    ///
+    /// ## Errors
+    ///
+    /// Returns query-related errors.
     pub fn execute(self, cache: &QlCache) -> QlResult<T::ResultType> {
         self.query.execute(cache)
     }

@@ -43,7 +43,6 @@ impl Select {
     }
 }
 
-
 impl QueryKind for Select {
     type ResultType = ();
 
