@@ -45,7 +45,7 @@ impl QlCache {
     /// ## Parameters
     /// - `query`, type `Query<T> where T: QueryKind`; the query to execute
     pub fn execute<T: QueryKind>(&self, query: Query<T>) -> QlResult<T::ResultType> {
-        todo!()
+        query.execute(self)
     }
 }
 

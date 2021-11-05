@@ -43,6 +43,15 @@ impl Select {
     }
 }
 
+
+impl QueryKind for Select {
+    type ResultType = ();
+
+    fn execute(&self, _: &QlCache) -> QlResult<Self::ResultType> {
+        todo!()
+    }
+}
+
 /// # Struct `SelectBuilder`
 ///
 /// A builder for a `Select`, constructs a `SELECT` query.
@@ -363,14 +372,6 @@ impl SelectBuilder {
                 sort_by: self.sort_by
             }
         })
-    }
-}
-
-impl QueryKind for Select {
-    type ResultType = ();
-
-    fn execute(&self, _: QlCache) -> QlResult<Self::ResultType> {
-        todo!()
     }
 }
 
