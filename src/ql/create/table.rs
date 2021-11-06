@@ -5,8 +5,7 @@
 use crate::{
     error::{
         QlError,
-        QlResult,
-        QueryError
+        QlResult
     },
     ql::{
         key::PrimaryKey,
