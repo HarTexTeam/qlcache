@@ -5,16 +5,21 @@ use qlcache::{
 };
 
 pub fn benchmark(c: &mut Criterion) {
-    c.bench_function("create_schema_bench", || {
+    c.bench_function("create_schema_bench", |b| {
         let cache = QlCache::new();
 
-        cache.execute(QueryBuilder::create()
-            .schema()
-            .if_not_exist()
-            .name(String::from("SchemaName"))
-            .build()
-            .unwrap()
-        ).unwrap();
+        b.iter(|| {
+            cache
+                .execute(
+                    QueryBuilder::create()
+                        .schema()
+                        .if_not_exist()
+                        .name(String::from("SchemaName"))
+                        .build()
+                        .unwrap()
+                )
+                .unwrap()
+        });
     });
 }
 
