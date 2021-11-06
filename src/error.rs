@@ -13,7 +13,10 @@ pub enum QlError {
     NoFirstConstraintFoundBeforeAndOr,
     PrimaryKeyAlreadySet,
     QueryError(QueryError),
-    RequiredFieldIsNone { field_name: String }
+    RequiredFieldIsNone { field_name: String },
+    VecCannotBeEmpty {
+        vec_name: String
+    }
 }
 
 /// # Enumeration `QueryError`

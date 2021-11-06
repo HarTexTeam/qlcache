@@ -27,7 +27,9 @@ impl SortBy {
     /// Returns `VecCannotBeEmpty` if the `Vec` of the `columns` parameter is empty.
     pub fn new(columns: Vec<String>, order: Option<SortOrdering>) -> QlResult<Self> {
         if columns.is_empty() {
-            return Err(QlError::VecCannotBeEmpty);
+            return Err(QlError::VecCannotBeEmpty {
+                vec_name: String::from("Sortby.columns")
+            });
         }
 
         Ok(Self {

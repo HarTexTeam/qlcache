@@ -88,3 +88,14 @@ impl QueryBuilder {
         Select::builder()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::{
+        Query,
+        QueryBuilder
+    };
+
+    static_assertions::assert_impl_all!(Query: Send, Sync);
+    static_assertions::assert_impl_all!(QueryBuilder: Send, Sync);
+}

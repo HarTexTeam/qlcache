@@ -6,6 +6,7 @@
 ///
 /// The primary key of a table.
 #[allow(clippy::module_name_repetitions)]
+#[derive(Clone)]
 pub struct PrimaryKey(pub(crate) String);
 
 impl PrimaryKey {
@@ -14,4 +15,11 @@ impl PrimaryKey {
     pub fn new(name: String) -> PrimaryKey {
         Self(name)
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::PrimaryKey;
+
+    static_assertions::assert_impl_all!(PrimaryKey: Clone, Send, Sync);
 }

@@ -129,3 +129,15 @@ impl CreateSchemaBuilder {
         })
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::{
+        CreateSchema,
+        CreateSchemaBuilder,
+        QueryKind
+    };
+
+    static_assertions::assert_impl_all!(CreateSchema: QueryKind, Send, Sync);
+    static_assertions::assert_impl_all!(CreateSchemaBuilder: Send, Sync);
+}
