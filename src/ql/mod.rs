@@ -91,11 +91,24 @@ impl QueryBuilder {
 
 #[cfg(test)]
 mod tests {
+    use crate::error::QlResult;
+    use crate::QlCache;
     use super::{
         Query,
-        QueryBuilder
+        QueryBuilder,
+        QueryKind
     };
 
-    static_assertions::assert_impl_all!(Query: Send, Sync);
+    struct Dummy;
+
+    impl QueryKind for Dummy {
+        type ResultType = ();
+
+        fn execute(self, _: &QlCache) -> QlResult<Self::ResultType> {
+            todo!()
+        }
+    }
+
+    static_assertions::assert_impl_all!(Query<Dummy>: Send, Sync);
     static_assertions::assert_impl_all!(QueryBuilder: Send, Sync);
 }
