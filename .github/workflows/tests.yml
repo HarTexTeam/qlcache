@@ -122,7 +122,7 @@ jobs:
           toolchain: nightly
           override: true
           profile: default
-      - name: Test
+      - name: Benchmark
         run: cargo bench
 
   macOSBenchmark:
@@ -139,7 +139,7 @@ jobs:
           toolchain: nightly
           override: true
           profile: default
-      - name: Test
+      - name: Benchmark
         run: cargo bench
 
   WindowsBenchmark:
@@ -156,5 +156,5 @@ jobs:
           toolchain: nightly
           override: true
           profile: default
-      - name: Test
+      - name: Benchmark
         run: cargo bench
