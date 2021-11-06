@@ -14,9 +14,7 @@ pub enum QlError {
     PrimaryKeyAlreadySet,
     QueryError(QueryError),
     RequiredFieldIsNone { field_name: String },
-    VecCannotBeEmpty {
-        vec_name: String
-    }
+    VecCannotBeEmpty { vec_name: String }
 }
 
 /// # Enumeration `QueryError`
@@ -26,12 +24,8 @@ pub enum QlError {
 #[allow(missing_docs)] // variants are pretty self explanatory?
 #[derive(Debug)]
 pub enum QueryError {
-    ObjectAlreadyExists {
-        name: String
-    },
-    ObjectDoesNotExist {
-        name: String
-    }
+    ObjectAlreadyExists { name: String },
+    ObjectDoesNotExist { name: String }
 }
 
 /// # Typealias `QlResult`
