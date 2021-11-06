@@ -13,6 +13,8 @@
 
 use dashmap::DashMap;
 
+use crate::ql::key::PrimaryKey;
+
 pub mod error;
 pub mod r#impl;
 pub mod ql;
@@ -56,6 +58,11 @@ pub struct CacheTable {
     ///
     /// The columns of the table, and whether the value can be `null`.
     pub columns: DashMap<String, (ColumnDataType, bool)>,
+
+    /// # Struct Field `primary_key`
+    ///
+    /// The primary key of the table.
+    pub primary_key: Option<PrimaryKey>,
 
     /// # Struct Field `rows`
     ///

@@ -33,7 +33,9 @@ impl QueryKind for CreateSchema {
     fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType> {
         if cache.cache.contains_key(&self.name) {
             if !self.if_not_exist {
-                return Err(QlError::QueryError(QueryError::ObjectAlreadyExists));
+                return Err(QlError::QueryError(QueryError::ObjectAlreadyExists {
+                    name: self.name
+                }));
             }
 
             return Ok(());

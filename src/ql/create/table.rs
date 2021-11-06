@@ -5,7 +5,8 @@
 use crate::{
     error::{
         QlError,
-        QlResult
+        QlResult,
+        QueryError
     },
     ql::{
         key::PrimaryKey,
@@ -31,7 +32,7 @@ pub struct CreateTable {
 impl QueryKind for CreateTable {
     type ResultType = ();
 
-    fn execute(self, _: &QlCache) -> QlResult<Self::ResultType> {
+    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType> {
         todo!()
     }
 }
@@ -202,7 +203,9 @@ impl CreateTableBuilder {
             };
         }
         else {
-            return Err(QlError::ColumnDoesNotExist);
+            return Err(QlError::ColumnDoesNotExist {
+                name: primary_key.0
+            });
         }
 
         self.primary_key.replace(primary_key);

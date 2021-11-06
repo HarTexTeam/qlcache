@@ -9,12 +9,11 @@
 #[allow(missing_docs)] // variants are pretty self explanatory?
 #[derive(Debug)]
 pub enum QlError {
-    ColumnDoesNotExist,
+    ColumnDoesNotExist { name: String },
     NoFirstConstraintFoundBeforeAndOr,
     PrimaryKeyAlreadySet,
     QueryError(QueryError),
-    RequiredFieldIsNone { field_name: String },
-    VecCannotBeEmpty
+    RequiredFieldIsNone { field_name: String }
 }
 
 /// # Enumeration `QueryError`
@@ -24,7 +23,12 @@ pub enum QlError {
 #[allow(missing_docs)] // variants are pretty self explanatory?
 #[derive(Debug)]
 pub enum QueryError {
-    ObjectAlreadyExists
+    ObjectAlreadyExists {
+        name: String
+    },
+    ObjectDoesNotExist {
+        name: String
+    }
 }
 
 /// # Typealias `QlResult`
