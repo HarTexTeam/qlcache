@@ -24,8 +24,8 @@ pub enum QlError {
 #[allow(missing_docs)] // variants are pretty self explanatory?
 #[derive(Debug)]
 pub enum QueryError {
-    ObjectAlreadyExists { name: String },
-    ObjectDoesNotExist { name: String }
+    RelationAlreadyExists { name: String },
+    RelationDoesNotExist { name: String }
 }
 
 /// # Typealias `QlResult`

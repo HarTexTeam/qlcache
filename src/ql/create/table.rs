@@ -2,16 +2,20 @@
 //!
 //! This module implements the `CREATE TABLE` query.
 
+use dashmap::DashMap;
+
 use crate::{
     error::{
         QlError,
-        QlResult
+        QlResult,
+        QueryError
     },
     ql::{
         key::PrimaryKey,
         Query,
         QueryKind
     },
+    CacheTable,
     ColumnDataType,
     QlCache
 };
@@ -31,8 +35,37 @@ pub struct CreateTable {
 impl QueryKind for CreateTable {
     type ResultType = ();
 
-    fn execute(self, _: &QlCache) -> QlResult<Self::ResultType> {
-        todo!()
+    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType> {
+        let schema = if let Some(entry) = cache.cache.get(&self.schema) {
+            entry.value().clone()
+        }
+        else {
+            return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
+                name: self.schema
+            }));
+        };
+
+        if schema.tables.contains_key(&self.name) {
+            if !self.if_not_exist {
+                return Err(QlError::QueryError(QueryError::RelationAlreadyExists {
+                    name: self.name
+                }));
+            }
+
+            return Ok(());
+        }
+
+        let table = CacheTable {
+            name: self.name.clone(),
+            columns: DashMap::from_iter(self.columns.into_iter()),
+            primary_key: self.primary_key,
+            rows: DashMap::new()
+        };
+
+        schema.tables.insert(self.name, table);
+        cache.cache.insert(self.schema, schema);
+
+        Ok(())
     }
 }
 
