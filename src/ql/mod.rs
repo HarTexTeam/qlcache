@@ -91,12 +91,14 @@ impl QueryBuilder {
 
 #[cfg(test)]
 mod tests {
-    use crate::error::QlResult;
-    use crate::QlCache;
     use super::{
         Query,
         QueryBuilder,
         QueryKind
+    };
+    use crate::{
+        error::QlResult,
+        QlCache
     };
 
     struct Dummy;
