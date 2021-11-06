@@ -57,7 +57,7 @@ impl QueryKind for CreateTable {
 
         let table = CacheTable {
             name: self.name.clone(),
-            columns: DashMap::from_iter(self.columns.into_iter()),
+            columns: self.columns.into_iter().collect(),
             primary_key: self.primary_key,
             rows: DashMap::new()
         };
