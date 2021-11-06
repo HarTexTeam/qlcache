@@ -17,6 +17,7 @@ use crate::{
         Query,
         QueryKind
     },
+    FromRow,
     QlCache
 };
 
@@ -44,7 +45,7 @@ impl Select {
 }
 
 impl QueryKind for Select {
-    type ResultType = ();
+    type ResultType = impl FromRow;
 
     fn execute(self, _: &QlCache) -> QlResult<Self::ResultType> {
         todo!()

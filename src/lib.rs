@@ -10,10 +10,14 @@
 
 #![deny(clippy::pedantic, missing_docs, warnings)]
 #![feature(format_args_capture)]
+#![feature(type_alias_impl_trait)]
 
 use dashmap::DashMap;
 
-use crate::ql::key::PrimaryKey;
+use crate::{
+    error::QlResult,
+    ql::key::PrimaryKey
+};
 
 pub mod error;
 pub mod r#impl;
@@ -79,6 +83,19 @@ pub struct CacheTableRow {
     ///
     /// The values of each column in this table.
     pub column_values: DashMap<String, ColumnValue>
+}
+
+/// # Trait `FromRow`
+///
+/// A trait for custom types to be used instead of stock rows, for `SELECT` results.
+pub trait FromRow<'row> {
+    /// # Trait Method `from_row`
+    ///
+    /// Performs the conversion.
+    ///
+    /// ## Parameters
+    /// - `row`, type `&CacheTableRow`; the row to do the conversion on
+    fn from_row(row: &'row CacheTableRow) -> QlResult<Self>;
 }
 
 /// # Enumeration `ColumnDataType`
