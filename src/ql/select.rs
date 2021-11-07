@@ -22,8 +22,8 @@ use crate::{
         QueryAsType,
         QueryRow
     },
-    FromRow,
     CacheTableRow,
+    FromRow,
     QlCache
 };
 
@@ -475,13 +475,14 @@ pub enum SelectScope {
 #[cfg(test)]
 mod tests {
     use super::{
-        QueryKind,
+        QueryAsType,
+        QueryRow,
         Select,
         SelectBuilder,
         SelectScope
     };
 
-    static_assertions::assert_impl_all!(Select: QueryKind, Send, Sync);
+    static_assertions::assert_impl_all!(Select: QueryAsType, QueryRow, Send, Sync);
     static_assertions::assert_impl_all!(SelectBuilder: Send, Sync);
     static_assertions::assert_impl_all!(SelectScope: Clone, Eq, PartialEq, Send, Sync);
 }

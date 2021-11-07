@@ -90,7 +90,7 @@ pub struct QueryBuilder;
 #[allow(dead_code)]
 pub struct QueryAs<'row, T: QueryAsType<'row, U>, U: FromRow<'row>> {
     pub(crate) query: T,
-    pub(crate) phantom: PhantomData<&'row U>,
+    pub(crate) phantom: PhantomData<&'row U>
 }
 
 

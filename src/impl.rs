@@ -12,8 +12,8 @@ use crate::{
         QueryAsType,
         QueryRow
     },
-    CacheTableRow,
     CacheSchema,
+    CacheTableRow,
     FromRow,
     QlCache
 };
@@ -67,7 +67,11 @@ impl QlCache {
     /// ## Errors
     ///
     /// Returns query-related errors.
-    pub fn execute_as<'row, T: QueryAsType<'row, U>, U: FromRow<'row>>(&self, _: QueryAs<'row, T, U>) {}
+    pub fn execute_as<'row, T: QueryAsType<'row, U>, U: FromRow<'row>>(
+        &self,
+        _: QueryAs<'row, T, U>
+    ) {
+    }
 }
 
 impl CacheSchema {
