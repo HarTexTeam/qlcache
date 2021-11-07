@@ -5,7 +5,8 @@
 use crate::{
     error::{
         QlError,
-        QlResult
+        QlResult,
+        QueryError
     },
     ql::{
         constraints::{
@@ -48,7 +49,26 @@ impl QueryKind for Select {
     type ResultType<'row> = impl FromRow<'row>;
 
     fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType<'_>> {
-        todo!()
+        let mut name = self.table_name.split(" ");
+        let _ = if name.clone().count() == 1 {
+            let name = name.next().unwrap();
+
+            // if the length of the split is only 1, we select from the PUBLIC schema.
+            let public = cache.cache.get("PUBLIC").unwrap().value();
+            let table = if let Some(entry) = public.tables.get() {
+                entry.value()
+            }
+            else {
+                return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
+                    name: name.to_string()
+                }));
+            };
+
+            table.rows.clone()
+        }
+        else {
+            todo!()
+        };
     }
 }
 
