@@ -91,8 +91,7 @@ pub struct CacheTableRow {
 /// A trait for custom types to be used instead of stock rows, for `SELECT` results.
 pub trait FromRow<'row>
 where
-    Self: Sized
-{
+    Self: Sized {
     /// # Trait Method `from_row`
     ///
     /// Performs the conversion.

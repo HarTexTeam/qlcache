@@ -51,9 +51,9 @@ impl QueryKind for Select {
     fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType<'_>> {
         let mut name = self.table_name.split(" ");
         let _ = if name.clone().count() == 1 {
+            // if the length of the split is only 1, we select from the PUBLIC schema.
             let name = name.next().unwrap();
 
-            // if the length of the split is only 1, we select from the PUBLIC schema.
             let public = cache.cache.get("PUBLIC").unwrap().value();
             let table = if let Some(entry) = public.tables.get(name) {
                 entry.value()
@@ -67,7 +67,29 @@ impl QueryKind for Select {
             table.rows.clone()
         }
         else {
-            todo!()
+            // if the length of the split is 2, we select from the schema specified by the first
+            // segment, and the table specified by the second segment.
+            let schema_name = name.next().unwrap();
+            let schema = if let Some(entry) = cache.cache.get(schema_name) {
+                entry.value()
+            }
+            else {
+                return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
+                    name: self.table_name
+                }));
+            };
+
+            let table_name = name.next().unwrap();
+            let table = if let Some(entry) = schema.tables.get(table_name) {
+                entry.value()
+            }
+            else {
+                return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
+                    name: self.table_name
+                }));
+            };
+
+            table.rows.clone()
         };
 
         todo!()
