@@ -55,7 +55,7 @@ impl QueryKind for Select {
 
             // if the length of the split is only 1, we select from the PUBLIC schema.
             let public = cache.cache.get("PUBLIC").unwrap().value();
-            let table = if let Some(entry) = public.tables.get() {
+            let table = if let Some(entry) = public.tables.get(name) {
                 entry.value()
             }
             else {
@@ -69,6 +69,8 @@ impl QueryKind for Select {
         else {
             todo!()
         };
+
+        todo!()
     }
 }
 
