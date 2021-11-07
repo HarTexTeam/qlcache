@@ -53,7 +53,7 @@ impl Select {
 impl QueryRow for Select {
     fn execute(self, cache: &QlCache) -> QlResult<Vec<CacheTableRow>> {
         let mut name = self.table_name.split(' ');
-        let _ = if name.clone().count() == 1 {
+        let all = if name.clone().count() == 1 {
             // if the length of the split is only 1, we select from the PUBLIC schema.
             let name = name.next().unwrap();
 
@@ -95,6 +95,10 @@ impl QueryRow for Select {
 
             table.rows
         };
+
+        if self.scope == SelectScope::Everything {
+            return Ok(all.into_iter().map(|(_, row)| row).collect());
+        }
 
         todo!()
     }
