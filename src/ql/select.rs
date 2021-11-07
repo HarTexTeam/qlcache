@@ -485,8 +485,22 @@ mod tests {
         SelectBuilder,
         SelectScope
     };
+    use crate::{
+        error::QlResult,
+        CacheTableRow,
+        FromRow
+    };
 
-    static_assertions::assert_impl_all!(Select: QueryAsType<'_, T>, QueryRow, Send, Sync);
+    struct Dummy;
+
+    impl<'row> FromRow<'row> for Dummy {
+        fn from_row(_: &'row CacheTableRow) -> QlResult<Self> {
+            todo!()
+        }
+    }
+
+
+    static_assertions::assert_impl_all!(Select: QueryAsType<'_, Dummy>, QueryRow, Send, Sync);
     static_assertions::assert_impl_all!(SelectBuilder: Send, Sync);
     static_assertions::assert_impl_all!(SelectScope: Clone, Eq, PartialEq, Send, Sync);
 }
