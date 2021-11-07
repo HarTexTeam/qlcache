@@ -30,7 +30,7 @@ pub trait QueryKind {
     /// # Trait Associated Type `ResultType`
     ///
     /// The type of the returned result from this query.
-    type ResultType<'row>;
+    type ResultType;
 
     /// # Trait Method `QueryKind::execute`
     ///
@@ -39,7 +39,7 @@ pub trait QueryKind {
     /// ## Errors
     ///
     /// Returns query-related errors.
-    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType<'_>>;
+    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType>;
 }
 
 /// # Struct `Query`
@@ -61,7 +61,7 @@ impl<T: QueryKind> Query<T> {
     /// ## Errors
     ///
     /// Returns query-related errors.
-    pub fn execute(self, cache: &QlCache) -> QlResult<T::ResultType<'_>> {
+    pub fn execute(self, cache: &QlCache) -> QlResult<T::ResultType> {
         self.query.execute(cache)
     }
 }
