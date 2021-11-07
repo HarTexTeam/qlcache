@@ -120,15 +120,14 @@ mod tests {
     };
     use crate::{
         error::QlResult,
+        CacheTableRow,
         QlCache
     };
 
     struct Dummy;
 
     impl QueryRow for Dummy {
-        type ResultType = ();
-
-        fn execute(self, _: &QlCache) -> QlResult<Self::ResultType> {
+        fn execute(self, _: &QlCache) -> QlResult<Vec<CacheTableRow>> {
             todo!()
         }
     }

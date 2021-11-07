@@ -486,7 +486,7 @@ mod tests {
         SelectScope
     };
 
-    static_assertions::assert_impl_all!(Select: QueryAsType, QueryRow, Send, Sync);
+    static_assertions::assert_impl_all!(Select: QueryAsType<'_, Select>, QueryRow, Send, Sync);
     static_assertions::assert_impl_all!(SelectBuilder: Send, Sync);
     static_assertions::assert_impl_all!(SelectScope: Clone, Eq, PartialEq, Send, Sync);
 }
