@@ -499,8 +499,11 @@ mod tests {
         }
     }
 
+    const _: fn() = || {
+        fn assert_impl_all<'row, T: ?Sized + QueryAsType<'row, Dummy> + QueryRow + Send + Sync>() {}
+        assert_impl_all::<Select>();
+    };
 
-    static_assertions::assert_impl_all!(Select: QueryAsType<'_, Dummy>, QueryRow, Send, Sync);
     static_assertions::assert_impl_all!(SelectBuilder: Send, Sync);
     static_assertions::assert_impl_all!(SelectScope: Clone, Eq, PartialEq, Send, Sync);
 }

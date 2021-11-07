@@ -9,6 +9,7 @@
 //! An object-relational in-memory cache, supports queries with an SQL-like query language.
 
 #![deny(clippy::pedantic, missing_docs, warnings)]
+#![feature(decl_macro)]
 #![feature(generic_associated_types)]
 #![feature(format_args_capture)]
 #![feature(type_alias_impl_trait)]
