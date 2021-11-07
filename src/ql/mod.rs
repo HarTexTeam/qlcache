@@ -93,7 +93,6 @@ pub struct QueryAs<'row, T: QueryAsType<'row, U>, U: FromRow<'row>> {
     pub(crate) phantom: PhantomData<&'row U>
 }
 
-
 impl QueryBuilder {
     /// # Static Method `QueryBuilder::create`
     ///

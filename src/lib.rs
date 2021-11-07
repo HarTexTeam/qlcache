@@ -98,6 +98,10 @@ where
     ///
     /// ## Parameters
     /// - `row`, type `&CacheTableRow`; the row to do the conversion on
+    ///
+    /// ## Errors
+    ///
+    /// Returns conversion-related errors.
     fn from_row(row: &'row CacheTableRow) -> QlResult<Self>;
 }
 

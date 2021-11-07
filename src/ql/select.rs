@@ -52,7 +52,7 @@ impl Select {
 
 impl QueryRow for Select {
     fn execute(self, cache: &QlCache) -> QlResult<Vec<CacheTableRow>> {
-        let mut name = self.table_name.split(" ");
+        let mut name = self.table_name.split(' ');
         let _ = if name.clone().count() == 1 {
             // if the length of the split is only 1, we select from the PUBLIC schema.
             let name = name.next().unwrap();
@@ -68,7 +68,7 @@ impl QueryRow for Select {
                 }));
             };
 
-            table.rows.clone()
+            table.rows
         }
         else {
             // if the length of the split is 2, we select from the schema specified by the first
@@ -93,7 +93,7 @@ impl QueryRow for Select {
                 }));
             };
 
-            table.rows.clone()
+            table.rows
         };
 
         todo!()
