@@ -12,9 +12,10 @@ use crate::{
     },
     ql::{
         Query,
-        QueryKind
+        QueryRow
     },
     CacheSchema,
+    CacheTableRow,
     QlCache
 };
 
@@ -27,10 +28,8 @@ pub struct CreateSchema {
     pub(crate) if_not_exist: bool
 }
 
-impl QueryKind for CreateSchema {
-    type ResultType = ();
-
-    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType> {
+impl QueryRow for CreateSchema {
+    fn execute(self, cache: &QlCache) -> QlResult<Vec<CacheTableRow>> {
         if cache.cache.contains_key(&self.name) {
             if !self.if_not_exist {
                 return Err(QlError::QueryError(QueryError::RelationAlreadyExists {
@@ -38,7 +37,7 @@ impl QueryKind for CreateSchema {
                 }));
             }
 
-            return Ok(());
+            return Ok(vec![]);
         }
 
         cache.cache.insert(
@@ -49,7 +48,7 @@ impl QueryKind for CreateSchema {
             }
         );
 
-        Ok(())
+        Ok(vec![])
     }
 }
 
@@ -135,9 +134,9 @@ mod tests {
     use super::{
         CreateSchema,
         CreateSchemaBuilder,
-        QueryKind
+        QueryRow
     };
 
-    static_assertions::assert_impl_all!(CreateSchema: QueryKind, Send, Sync);
+    static_assertions::assert_impl_all!(CreateSchema: QueryRow, Send, Sync);
     static_assertions::assert_impl_all!(CreateSchemaBuilder: Send, Sync);
 }

@@ -8,9 +8,13 @@ use crate::{
     error::QlResult,
     ql::{
         Query,
-        QueryKind
+        QueryAs,
+        QueryAsType,
+        QueryRow
     },
+    CacheTableRow,
     CacheSchema,
+    FromRow,
     QlCache
 };
 
@@ -48,9 +52,22 @@ impl QlCache {
     /// ## Errors
     ///
     /// Returns query-related errors.
-    pub fn execute<T: QueryKind>(&self, query: Query<T>) -> QlResult<T::ResultType> {
+    pub fn execute<T: QueryRow>(&self, query: Query<T>) -> QlResult<Vec<CacheTableRow>> {
         query.execute(self)
     }
+
+    // TODO: implement this method
+    /// # Instance Method `QlCache::execute_as`
+    ///
+    /// Executes a query, returns the value as specified by `U`.
+    ///
+    /// ## Parameters
+    /// - `query`, type `QueryAs<T, U> where T: QueryKind, U: FromRow`; the query to execute
+    ///
+    /// ## Errors
+    ///
+    /// Returns query-related errors.
+    pub fn execute_as<'row, T: QueryAsType<'row, U>, U: FromRow<'row>>(&self, _: QueryAs<'row, T, U>) {}
 }
 
 impl CacheSchema {

@@ -13,9 +13,10 @@ use crate::{
     ql::{
         key::PrimaryKey,
         Query,
-        QueryKind
+        QueryRow
     },
     CacheTable,
+    CacheTableRow,
     ColumnDataType,
     QlCache
 };
@@ -32,10 +33,8 @@ pub struct CreateTable {
     pub(crate) if_not_exist: bool
 }
 
-impl QueryKind for CreateTable {
-    type ResultType = ();
-
-    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType> {
+impl QueryRow for CreateTable {
+    fn execute(self, cache: &QlCache) -> QlResult<Vec<CacheTableRow>> {
         let schema = if let Some(entry) = cache.cache.get(&self.schema) {
             entry.value().clone()
         }
@@ -52,7 +51,7 @@ impl QueryKind for CreateTable {
                 }));
             }
 
-            return Ok(());
+            return Ok(vec![]);
         }
 
         let table = CacheTable {
@@ -65,7 +64,7 @@ impl QueryKind for CreateTable {
         schema.tables.insert(self.name, table);
         cache.cache.insert(self.schema, schema);
 
-        Ok(())
+        Ok(vec![])
     }
 }
 
@@ -297,9 +296,9 @@ mod tests {
     use super::{
         CreateTable,
         CreateTableBuilder,
-        QueryKind
+        QueryRow
     };
 
-    static_assertions::assert_impl_all!(CreateTable: QueryKind, Send, Sync);
+    static_assertions::assert_impl_all!(CreateTable: QueryRow, Send, Sync);
     static_assertions::assert_impl_all!(CreateTableBuilder: Send, Sync);
 }

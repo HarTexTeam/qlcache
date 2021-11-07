@@ -2,6 +2,8 @@
 //!
 //! This module implements the `SELECT` query of the query language.
 
+use std::marker::PhantomData;
+
 use crate::{
     error::{
         QlError,
@@ -16,10 +18,12 @@ use crate::{
         },
         sortby::SortBy,
         Query,
-        QueryKind
+        QueryAs,
+        QueryAsType,
+        QueryRow
     },
-    CacheTableRow,
     FromRow,
+    CacheTableRow,
     QlCache
 };
 
@@ -46,18 +50,17 @@ impl Select {
     }
 }
 
-impl QueryKind for Select {
-    type ResultType = Vec<CacheTableRow>;
-
-    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType> {
+impl QueryRow for Select {
+    fn execute(self, cache: &QlCache) -> QlResult<Vec<CacheTableRow>> {
         let mut name = self.table_name.split(" ");
-        let all = if name.clone().count() == 1 {
+        let _ = if name.clone().count() == 1 {
             // if the length of the split is only 1, we select from the PUBLIC schema.
             let name = name.next().unwrap();
 
-            let public = cache.cache.get("PUBLIC").unwrap().value();
+            let entry = cache.cache.get("PUBLIC").unwrap();
+            let public = entry.value();
             let table = if let Some(entry) = public.tables.get(name) {
-                entry.value()
+                entry.value().clone()
             }
             else {
                 return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
@@ -72,7 +75,7 @@ impl QueryKind for Select {
             // segment, and the table specified by the second segment.
             let schema_name = name.next().unwrap();
             let schema = if let Some(entry) = cache.cache.get(schema_name) {
-                entry.value()
+                entry.value().clone()
             }
             else {
                 return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
@@ -82,7 +85,7 @@ impl QueryKind for Select {
 
             let table_name = name.next().unwrap();
             let table = if let Some(entry) = schema.tables.get(table_name) {
-                entry.value()
+                entry.value().clone()
             }
             else {
                 return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
@@ -93,6 +96,12 @@ impl QueryKind for Select {
             table.rows.clone()
         };
 
+        todo!()
+    }
+}
+
+impl<'row, T: FromRow<'row>> QueryAsType<'row, T> for Select {
+    fn execute_as(self, _: &QlCache) -> QlResult<T> {
         todo!()
     }
 }
@@ -388,7 +397,7 @@ impl SelectBuilder {
         self
     }
 
-    /// # Instance Method `SelectBuidler::build`
+    /// # Instance Method `SelectBuilder::build`
     ///
     /// Consumes the builder and returns a `Query<Select>`.
     ///
@@ -416,6 +425,38 @@ impl SelectBuilder {
                 constraint: self.constraint,
                 sort_by: self.sort_by
             }
+        })
+    }
+
+    /// # Instance Method `SelectBuilder::build_as`
+    ///
+    /// Consumes the builder and returns a `QueryAs<Select, T>`.
+    ///
+    /// ## Errors
+    ///
+    /// Returns `RequiredFieldIsNone` if any of the fields required is `None`.
+    #[allow(clippy::missing_panics_doc)] // this function never panics
+    pub fn build_as<'row, T: FromRow<'row>>(self) -> QlResult<QueryAs<'row, Select, T>> {
+        if self.table_name.is_none() {
+            return Err(QlError::RequiredFieldIsNone {
+                field_name: String::from("SelectBuilder.table_name")
+            });
+        }
+
+        if self.scope.is_none() {
+            return Err(QlError::RequiredFieldIsNone {
+                field_name: String::from("SelectBuilder.scope")
+            });
+        }
+
+        Ok(QueryAs {
+            query: Select {
+                table_name: self.table_name.unwrap(),
+                scope: self.scope.unwrap(),
+                constraint: self.constraint,
+                sort_by: self.sort_by
+            },
+            phantom: PhantomData
         })
     }
 }
