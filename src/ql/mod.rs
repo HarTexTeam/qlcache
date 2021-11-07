@@ -79,19 +79,34 @@ impl<T: QueryRow> Query<T> {
     }
 }
 
-/// # Struct `QueryBuilder`
-///
-/// The builder for a `Query`.
-pub struct QueryBuilder;
-
-/// # Struct `Query`
+/// # Struct `QueryAs`
 ///
 /// A query where the results are mapped to a specific struct.
-#[allow(dead_code)]
 pub struct QueryAs<'row, T: QueryAsType<'row, U>, U: FromRow<'row>> {
     pub(crate) query: T,
     pub(crate) phantom: PhantomData<&'row U>
 }
+
+impl<'row, T: QueryAsType<'row, U>, U: FromRow<'row>> QueryAs<'row, T, U> {
+    /// # Instance Method `Query::execute_as`
+    ///
+    /// Executes a query.
+    ///
+    /// ## Parameters
+    /// - `cache`, type `&QlCache`; the cache to execute this query on
+    ///
+    /// ## Errors
+    ///
+    /// Returns query-related errors.
+    pub fn execute_as(self, cache: &QlCache) -> QlResult<U> {
+        self.query.execute_as(cache)
+    }
+}
+
+/// # Struct `QueryBuilder`
+///
+/// The builder for a `Query`.
+pub struct QueryBuilder;
 
 impl QueryBuilder {
     /// # Static Method `QueryBuilder::create`

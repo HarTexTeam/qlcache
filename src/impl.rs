@@ -69,8 +69,9 @@ impl QlCache {
     /// Returns query-related errors.
     pub fn execute_as<'row, T: QueryAsType<'row, U>, U: FromRow<'row>>(
         &self,
-        _: QueryAs<'row, T, U>
-    ) {
+        query: QueryAs<'row, T, U>
+    ) -> QlResult<U> {
+        query.execute_as(self)
     }
 }
 
