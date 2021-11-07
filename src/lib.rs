@@ -9,6 +9,7 @@
 //! An object-relational in-memory cache, supports queries with an SQL-like query language.
 
 #![deny(clippy::pedantic, missing_docs, warnings)]
+#![feature(generic_associated_types)]
 #![feature(format_args_capture)]
 #![feature(type_alias_impl_trait)]
 
@@ -88,7 +89,10 @@ pub struct CacheTableRow {
 /// # Trait `FromRow`
 ///
 /// A trait for custom types to be used instead of stock rows, for `SELECT` results.
-pub trait FromRow<'row> {
+pub trait FromRow<'row>
+where
+    Self: Sized
+{
     /// # Trait Method `from_row`
     ///
     /// Performs the conversion.

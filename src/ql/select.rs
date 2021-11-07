@@ -45,9 +45,9 @@ impl Select {
 }
 
 impl QueryKind for Select {
-    type ResultType = impl FromRow;
+    type ResultType<'row> = impl FromRow<'row>;
 
-    fn execute(self, _: &QlCache) -> QlResult<Self::ResultType> {
+    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType<'_>> {
         todo!()
     }
 }

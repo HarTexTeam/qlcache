@@ -48,7 +48,7 @@ impl QlCache {
     /// ## Errors
     ///
     /// Returns query-related errors.
-    pub fn execute<T: QueryKind>(&self, query: Query<T>) -> QlResult<T::ResultType> {
+    pub fn execute<T: QueryKind>(&self, query: Query<T>) -> QlResult<T::ResultType<'_>> {
         query.execute(self)
     }
 }
