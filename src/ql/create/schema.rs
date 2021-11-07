@@ -28,9 +28,9 @@ pub struct CreateSchema {
 }
 
 impl QueryKind for CreateSchema {
-    type ResultType<'row> = ();
+    type ResultType = ();
 
-    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType<'_>> {
+    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType> {
         if cache.cache.contains_key(&self.name) {
             if !self.if_not_exist {
                 return Err(QlError::QueryError(QueryError::RelationAlreadyExists {

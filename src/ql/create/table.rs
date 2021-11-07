@@ -33,9 +33,9 @@ pub struct CreateTable {
 }
 
 impl QueryKind for CreateTable {
-    type ResultType<'row> = ();
+    type ResultType = ();
 
-    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType<'_>> {
+    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType> {
         let schema = if let Some(entry) = cache.cache.get(&self.schema) {
             entry.value().clone()
         }

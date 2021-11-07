@@ -18,6 +18,7 @@ use crate::{
         Query,
         QueryKind
     },
+    CacheTableRow,
     FromRow,
     QlCache
 };
@@ -46,11 +47,11 @@ impl Select {
 }
 
 impl QueryKind for Select {
-    type ResultType<'row> = impl FromRow<'row>;
+    type ResultType = Vec<CacheTableRow>;
 
-    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType<'_>> {
+    fn execute(self, cache: &QlCache) -> QlResult<Self::ResultType> {
         let mut name = self.table_name.split(" ");
-        let _ = if name.clone().count() == 1 {
+        let all = if name.clone().count() == 1 {
             // if the length of the split is only 1, we select from the PUBLIC schema.
             let name = name.next().unwrap();
 
