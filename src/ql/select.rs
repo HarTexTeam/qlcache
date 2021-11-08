@@ -101,12 +101,17 @@ impl QueryRow for Select {
             // no constraints
             return Ok(rows);
         }
-        else {}
+        else {
+            todo!()
+        }
 
         if let SelectScope::Fields(_) = self.scope && self.constraint.is_none() {
             // no constraints
+            todo!()
         }
-        else {}
+        else {
+            todo!()
+        }
 
         todo!()
     }
