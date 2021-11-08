@@ -95,10 +95,18 @@ impl QueryRow for Select {
 
             table.rows
         };
+        let rows: Vec<CacheTableRow> = all.into_iter().map(|(_, row)| row).collect();
 
-        if self.scope == SelectScope::Everything {
-            return Ok(all.into_iter().map(|(_, row)| row).collect());
+        if self.scope == SelectScope::Everything && self.constraint.is_none() {
+            // no constraints
+            return Ok(rows);
         }
+        else {}
+
+        if let SelectScope::Fields(_) = self.scope && self.constraint.is_none() {
+            // no constraints
+        }
+        else {}
 
         todo!()
     }

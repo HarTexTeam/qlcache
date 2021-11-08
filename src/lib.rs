@@ -14,6 +14,9 @@
 #![feature(format_args_capture)]
 #![feature(type_alias_impl_trait)]
 
+#![allow(incomplete_features)]
+#![feature(let_chains)]
+
 use dashmap::DashMap;
 
 use crate::{

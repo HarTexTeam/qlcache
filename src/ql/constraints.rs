@@ -17,7 +17,17 @@ pub trait ComputableConstraint {
     /// # Trait Method `ComputableConstraint::compute`
     ///
     /// Computes this constraint and returns whether the constraint is satisfied.
-    fn compute(&self, col_val: ColumnValue) -> bool;
+    fn compute(&self, col_val: ColumnValue) -> bool {
+        false
+    }
+
+    /// # Trait Method `ComputableConstraint::compute_two_operands`
+    ///
+    /// Computes the two operands of this constraint (if its `AND` or `OR`), and returns
+    /// whether the constraint is satisfied.
+    fn compute_two_operands(&self, left_val: ColumnValue, right_val: ColumnValue) -> bool {
+        false
+    }
 }
 
 /// # Struct `Constraint`
@@ -208,8 +218,8 @@ impl AndConstraint {
 }
 
 impl ComputableConstraint for AndConstraint {
-    fn compute(&self, col_val: ColumnValue) -> bool {
-        self.left.compute(col_val.clone()) && self.right.compute(col_val)
+    fn compute_two_operands(&self, left_val: ColumnValue, right_val: ColumnValue) -> bool {
+        self.left.compute(left_val) && self.right.compute(right_val)
     }
 }
 
@@ -260,8 +270,8 @@ impl OrConstraint {
 }
 
 impl ComputableConstraint for OrConstraint {
-    fn compute(&self, col_val: ColumnValue) -> bool {
-        self.left.compute(col_val.clone()) || self.right.compute(col_val)
+    fn compute_two_operands(&self, left_val: ColumnValue, right_val: ColumnValue) -> bool {
+        self.left.compute(left_val) && self.right.compute(right_val)
     }
 }
 
