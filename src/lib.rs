@@ -12,7 +12,6 @@
 #![allow(incomplete_features)]
 #![feature(decl_macro)]
 #![feature(generic_associated_types)]
-#![feature(format_args_capture)]
 #![feature(type_alias_impl_trait)]
 #![feature(let_chains)]
 
