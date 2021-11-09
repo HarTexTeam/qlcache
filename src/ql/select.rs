@@ -118,17 +118,18 @@ impl QueryRow for Select {
                 }));
             }
 
-            return rows.iter()
+            return Ok(rows.iter()
                 .map(|row| {
                     CacheTableRow {
                         column_values: row
                             .column_values
-                            .iter()
-                            .filter(|column| fields.contains(column.key()))
+                            .clone()
+                            .into_iter()
+                            .filter(|column| fields.contains(&column.0))
                             .collect()
                     }
                 })
-                .collect();
+                .collect());
         }
 
         todo!()
