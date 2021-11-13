@@ -87,7 +87,7 @@ impl QueryRow for CreateTable {
 ///
 /// - `CREATE TABLE IF NOT EXIST TableName`
 /// ```
-/// use qlcache::ql::QueryBuilder;;
+/// use qlcache::ql::QueryBuilder;
 ///
 /// let create_table = QueryBuilder::create()
 ///     .table()
