@@ -8,7 +8,7 @@ An object-relational in-memory cache, supports queries with an ORM API that wrap
 license = "Apache-2.0"
 
 [dependencies]
-dashmap = "4.0.2"
+flurry = "0.3.1"
 
 [dev-dependencies]
 criterion = "0.3.5"

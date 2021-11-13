@@ -2,7 +2,7 @@
 //!
 //! This module implements the `CREATE SCHEMA` query.
 
-use dashmap::DashMap;
+use flurry::HashMap;
 
 use crate::{
     error::{
@@ -30,7 +30,7 @@ pub struct CreateSchema {
 
 impl QueryRow for CreateSchema {
     fn execute(self, cache: &QlCache) -> QlResult<Vec<CacheTableRow>> {
-        if cache.cache.contains_key(&self.name) {
+        if cache.cache.pin().contains_key(&self.name) {
             if !self.if_not_exist {
                 return Err(QlError::QueryError(QueryError::RelationAlreadyExists {
                     name: self.name
@@ -40,11 +40,11 @@ impl QueryRow for CreateSchema {
             return Ok(vec![]);
         }
 
-        cache.cache.insert(
+        cache.cache.pin().insert(
             self.name.clone(),
             CacheSchema {
                 name: self.name,
-                tables: DashMap::new()
+                tables: HashMap::new()
             }
         );
 

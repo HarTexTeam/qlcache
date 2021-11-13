@@ -2,7 +2,7 @@
 //!
 //! This module implements the `CREATE TABLE` query.
 
-use dashmap::DashMap;
+use flurry::HashMap;
 
 use crate::{
     error::{
@@ -35,8 +35,8 @@ pub struct CreateTable {
 
 impl QueryRow for CreateTable {
     fn execute(self, cache: &QlCache) -> QlResult<Vec<CacheTableRow>> {
-        let schema = if let Some(entry) = cache.cache.get(&self.schema) {
-            entry.value().clone()
+        let schema = if let Some(schema) = cache.cache.pin().get(&self.schema) {
+            schema.clone()
         }
         else {
             return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
@@ -44,7 +44,7 @@ impl QueryRow for CreateTable {
             }));
         };
 
-        if schema.tables.contains_key(&self.name) {
+        if schema.tables.pin().contains_key(&self.name) {
             if !self.if_not_exist {
                 return Err(QlError::QueryError(QueryError::RelationAlreadyExists {
                     name: self.name
@@ -58,11 +58,11 @@ impl QueryRow for CreateTable {
             name: self.name.clone(),
             columns: self.columns.into_iter().collect(),
             primary_key: self.primary_key,
-            rows: DashMap::new()
+            rows: HashMap::new()
         };
 
-        schema.tables.insert(self.name, table);
-        cache.cache.insert(self.schema, schema);
+        schema.tables.pin().insert(self.name, table);
+        cache.cache.pin().insert(self.schema, schema);
 
         Ok(vec![])
     }

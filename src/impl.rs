@@ -2,7 +2,7 @@
 //!
 //! This module implements the querying from the cache.
 
-use dashmap::DashMap;
+use flurry::HashMap;
 
 use crate::{
     error::QlResult,
@@ -32,13 +32,13 @@ impl QlCache {
     /// ```
     #[must_use]
     pub fn new() -> Self {
-        let dashmap = DashMap::new();
+        let hashmap = HashMap::new();
         let default_schema = String::from("PUBLIC");
 
-        dashmap.insert(default_schema.clone(), CacheSchema::new(default_schema));
+        hashmap.pin().insert(default_schema.clone(), CacheSchema::new(default_schema));
 
         Self {
-            cache: dashmap
+            cache: hashmap
         }
     }
 
@@ -83,7 +83,7 @@ impl CacheSchema {
     pub fn new(name: String) -> Self {
         Self {
             name,
-            tables: DashMap::new()
+            tables: HashMap::new()
         }
     }
 }
