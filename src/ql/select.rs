@@ -97,42 +97,42 @@ impl QueryRow for Select {
         };
         let rows: Vec<CacheTableRow> = all.into_iter().map(|(_, row)| row).collect();
 
-        // SELECT * FROM <table name>
-        if self.scope == SelectScope::Everything && self.constraint.is_none() {
-            return Ok(rows);
-        }
+        match self.scope {
+            SelectScope::Everything if self.constraint.is_none() => return Ok(rows),
+            SelectScope::Everything => todo!(),
+            SelectScope::Fields(fields) => {
+                let mut table_columns_iter = table.columns.iter();
+                if let Some(field) = fields
+                    .iter()
+                    .find(|name| {
+                        table_columns_iter
+                            .find(|ref_multi| ref_multi.key() == *name)
+                            .is_none()
+                    })
+                {
+                    return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
+                        name: format!("{}.{}", self.table_name, field)
+                    }));
+                }
 
-        // SELECT <field names> FROM <table name>
-        if let SelectScope::Fields(fields) = self.scope && self.constraint.is_none() {
-            let mut table_columns_iter = table.columns.iter();
-            if let Some(field) = fields
-                .iter()
-                .find(|name| {
-                    table_columns_iter
-                        .find(|ref_multi| ref_multi.key() == *name)
-                        .is_none()
-                })
-            {
-                return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
-                    name: format!("{}.{}", self.table_name, field)
-                }));
+                if self.constraint.is_none() {
+                    return Ok(rows.iter()
+                        .map(|row| {
+                            CacheTableRow {
+                                column_values: row
+                                    .column_values
+                                    .clone()
+                                    .into_iter()
+                                    .filter(|column| fields.contains(&column.0))
+                                    .collect()
+                            }
+                        })
+                        .collect());
+                }
+
+                todo!()
             }
-
-            return Ok(rows.iter()
-                .map(|row| {
-                    CacheTableRow {
-                        column_values: row
-                            .column_values
-                            .clone()
-                            .into_iter()
-                            .filter(|column| fields.contains(&column.0))
-                            .collect()
-                    }
-                })
-                .collect());
         }
-
-        todo!()
     }
 }
 
