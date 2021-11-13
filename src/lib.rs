@@ -9,11 +9,13 @@
 //! An object-relational in-memory cache, supports queries with an SQL-like query language.
 
 #![deny(clippy::pedantic, missing_docs, warnings)]
+#![allow(incomplete_features)]
 #![feature(decl_macro)]
 #![feature(generic_associated_types)]
 #![feature(type_alias_impl_trait)]
+#![feature(let_chains)]
 
-use flurry::HashMap;
+use dashmap::DashMap;
 
 use crate::{
     error::QlResult,
@@ -30,7 +32,7 @@ pub mod ql;
 #[allow(dead_code)]
 #[derive(Clone)]
 pub struct QlCache {
-    pub(crate) cache: HashMap<String, CacheSchema>
+    pub(crate) cache: DashMap<String, CacheSchema>
 }
 
 /// # Struct `CacheSchema`
@@ -46,7 +48,7 @@ pub struct CacheSchema {
     /// # Struct Field `tables`
     ///
     /// The tables of the schema.
-    pub tables: HashMap<String, CacheTable>
+    pub tables: DashMap<String, CacheTable>
 }
 
 /// # Struct `CacheTable`
@@ -62,7 +64,7 @@ pub struct CacheTable {
     /// # Struct Field `columns`
     ///
     /// The columns of the table, and whether the value can be `null`.
-    pub columns: HashMap<String, (ColumnDataType, bool)>,
+    pub columns: DashMap<String, (ColumnDataType, bool)>,
 
     /// # Struct Field `primary_key`
     ///
@@ -72,7 +74,7 @@ pub struct CacheTable {
     /// # Struct Field `rows`
     ///
     /// The rows of the table.
-    pub rows: HashMap<u64, CacheTableRow>
+    pub rows: DashMap<u64, CacheTableRow>
 }
 
 /// # Struct `CacheTableRow`
@@ -83,7 +85,7 @@ pub struct CacheTableRow {
     /// # Struct Field `column_values`
     ///
     /// The values of each column in this table.
-    pub column_values: HashMap<String, ColumnValue>
+    pub column_values: DashMap<String, ColumnValue>
 }
 
 /// # Trait `FromRow`

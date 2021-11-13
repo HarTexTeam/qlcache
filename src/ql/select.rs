@@ -57,11 +57,10 @@ impl QueryRow for Select {
             // if the length of the split is only 1, we select from the PUBLIC schema.
             let name = name.next().unwrap();
 
-            let map_pin = cache.cache.pin();
-            let schema = map_pin.get("PUBLIC").unwrap();
-            let public = schema.clone();
-            let table = if let Some(table) = public.tables.pin().get(name) {
-                table.clone()
+            let entry = cache.cache.get("PUBLIC").unwrap();
+            let public = entry.value();
+            let table = if let Some(entry) = public.tables.get(name) {
+                entry.value().clone()
             }
             else {
                 return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
@@ -75,8 +74,8 @@ impl QueryRow for Select {
             // if the length of the split is 2, we select from the schema specified by the first
             // segment, and the table specified by the second segment.
             let schema_name = name.next().unwrap();
-            let schema = if let Some(schema) = cache.cache.pin().get(schema_name) {
-                schema.clone()
+            let schema = if let Some(entry) = cache.cache.get(schema_name) {
+                entry.value().clone()
             }
             else {
                 return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
@@ -85,8 +84,8 @@ impl QueryRow for Select {
             };
 
             let table_name = name.next().unwrap();
-            let table = if let Some(table) = schema.tables.pin().get(table_name) {
-                table.clone()
+            let table = if let Some(entry) = schema.tables.get(table_name) {
+                entry.value().clone()
             }
             else {
                 return Err(QlError::QueryError(QueryError::RelationDoesNotExist {
@@ -96,19 +95,18 @@ impl QueryRow for Select {
 
             (table.clone(), table.rows)
         };
-        let rows: Vec<CacheTableRow> = all.pin().iter().map(|(_, row)| row.clone()).collect();
+        let rows: Vec<CacheTableRow> = all.into_iter().map(|(_, row)| row).collect();
 
         match self.scope {
             SelectScope::Everything if self.constraint.is_none() => return Ok(rows),
             SelectScope::Everything => todo!(),
             SelectScope::Fields(fields) => {
-                let map_pin = table.columns.pin();
-                let mut table_columns_iter = map_pin.iter();
+                let mut table_columns_iter = table.columns.iter();
                 if let Some(field) = fields
                     .iter()
                     .find(|name| {
                         table_columns_iter
-                            .find(|&(string, _)| string == *name)
+                            .find(|ref_multi| ref_multi.key() == *name)
                             .is_none()
                     })
                 {
@@ -124,10 +122,8 @@ impl QueryRow for Select {
                                 column_values: row
                                     .column_values
                                     .clone()
-                                    .pin()
-                                    .iter()
+                                    .into_iter()
                                     .filter(|column| fields.contains(&column.0))
-                                    .map(|(string, val)| (string.clone(), val.clone()))
                                     .collect()
                             }
                         })
