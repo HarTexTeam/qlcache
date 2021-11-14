@@ -70,7 +70,7 @@ impl QlCache {
     pub fn execute_as<'row, T: QueryAsType<'row, U>, U: FromRow<'row>>(
         &self,
         query: QueryAs<'row, T, U>
-    ) -> QlResult<U> {
+    ) -> QlResult<Vec<U>> {
         query.execute_as(self)
     }
 }

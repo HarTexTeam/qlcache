@@ -53,7 +53,7 @@ pub trait QueryAsType<'row, T: FromRow<'row>> {
     /// ## Errors
     ///
     /// Returns query-related errors.
-    fn execute_as(self, cache: &QlCache) -> QlResult<T>;
+    fn execute_as(self, cache: &QlCache) -> QlResult<Vec<T>>;
 }
 
 /// # Struct `Query`
@@ -98,7 +98,7 @@ impl<'row, T: QueryAsType<'row, U>, U: FromRow<'row>> QueryAs<'row, T, U> {
     /// ## Errors
     ///
     /// Returns query-related errors.
-    pub fn execute_as(self, cache: &QlCache) -> QlResult<U> {
+    pub fn execute_as(self, cache: &QlCache) -> QlResult<Vec<U>> {
         self.query.execute_as(cache)
     }
 }
