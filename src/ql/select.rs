@@ -138,11 +138,7 @@ impl QueryRow for Select {
 
 impl<'row, T: FromRow<'row>> QueryAsType<'row, T> for Select {
     fn execute_as(self, cache: &QlCache) -> QlResult<Vec<T>> {
-        Ok(self
-            .execute(cache)?
-            .iter()
-            .map(|row| T::from_row(row).expect("failed to serialize into Rust object"))
-            .collect())
+        todo!()
     }
 }
 
